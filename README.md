@@ -71,5 +71,9 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### Installation
 
-To clone down file use git clone <http or SSH> --recurse-submodules in order to
-also clone down the API inside of this file.
+1. To clone down file use the following command so that you also clone down the
+API inside of the repository:
+
+ $git clone https://github.com/campbelllssoup/geo-dasher.git --recurse-submodules
+
+2. npm install leaflet 
