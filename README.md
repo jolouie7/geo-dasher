@@ -66,3 +66,10 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+--------------------------------------------------------------------------------
+
+### Installation
+
+To clone down file use git clone <http or SSH> --recurse-submodules in order to
+also clone down the API inside of this file.
