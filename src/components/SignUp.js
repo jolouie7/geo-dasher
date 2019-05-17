@@ -13,6 +13,10 @@ class SignUp extends React.Component {
     }
   }
 
+  fakeChange = () => {
+    // this is only here to get rid of an error in the console
+  }
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value
@@ -37,8 +41,16 @@ class SignUp extends React.Component {
     })
     .then(res => res.json())
     .then(resObj => {
-      console.log(resObj)
-      localStorage.setItem('jwt', resObj['jwt'])
+      if (resObj['error']) {
+        const errorList = resObj['error'].split('-')
+        errorList.splice(-1, 1)
+        const errorsHTML = errorList.join("<br/><br/>")
+        document.querySelector('#error-list').innerHTML = errorsHTML
+      } else {
+        this.props.dispatch({type: "LOG_OUT"})
+        localStorage.setItem('jwt', resObj['jwt'])
+        this.props.history.push('/profile')
+      }
     })
   }
 
@@ -75,8 +87,12 @@ class SignUp extends React.Component {
             value={this.state.confirm_password}
             autoComplete="off"/>
           <br/><br/>
-          <input type="Submit" value="Sign Up"/>
+          <input type="Submit" onChange={this.fakeChange} value="Sign Up"/>
         </form>
+        <p id="error-list" style={{color:"red"}}></p>
+        <p>
+          Already have an account? <Link to="/signin">Sign in</Link>
+        </p>
       </div>
     )
   }

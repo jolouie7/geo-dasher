@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 class SignIn extends React.Component {
 
@@ -10,6 +10,10 @@ class SignIn extends React.Component {
       username: "",
       password: ""
     }
+  }
+
+  fakeChange = () => {
+    // this is only here to get rid of an error in the console
   }
 
   handleChange = (e) => {
@@ -40,7 +44,9 @@ class SignIn extends React.Component {
       if (resObj['message']) {
         document.querySelector('#error-list').innerHTML = resObj['message']
       } else {
+        this.props.dispatch({type: "LOG_IN"})
         localStorage.setItem('jwt', resObj['jwt'])
+        this.props.history.push('/profile')
       }
     })
   }
@@ -64,13 +70,18 @@ class SignIn extends React.Component {
             value={this.state.password}
             autoComplete="off"/>
           <br/><br/>
-          <input type="Submit" value="Sign In"/>
+          <input type="Submit" onChange={this.fakeChange} value="Sign In"/>
         </form>
         <p id="error-list" style={{color:"red"}}></p>
+        <p>
+          Don't have an account? <Link to="/signup">Sign up</Link>
+        </p>
       </div>
     )
   }
 
 }
 
-export default SignIn
+
+
+export default connect()(SignIn)
