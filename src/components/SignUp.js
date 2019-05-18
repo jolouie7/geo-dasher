@@ -49,7 +49,7 @@ class SignUp extends React.Component {
       } else {
         this.props.dispatch({type: "LOG_OUT"})
         localStorage.setItem('jwt', resObj['jwt'])
-        this.props.history.push('/profile')
+        this.props.history.push(`/users/${resObj['user']['id']}`)
       }
     })
   }

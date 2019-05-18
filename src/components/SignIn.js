@@ -24,8 +24,6 @@ class SignIn extends React.Component {
 
   handleSubmit = (e, login_info) => {
     e.preventDefault();
-    console.log(login_info.username)
-    console.log(login_info.password)
     fetch('http://localhost:3005/api/v1/signin', {
       method: "POST",
       headers: {
@@ -46,7 +44,8 @@ class SignIn extends React.Component {
       } else {
         this.props.dispatch({type: "LOG_IN"})
         localStorage.setItem('jwt', resObj['jwt'])
-        this.props.history.push('/profile')
+        console.log(resObj.user.id)
+        this.props.history.push(`/users/${resObj.user.id}`)
       }
     })
   }

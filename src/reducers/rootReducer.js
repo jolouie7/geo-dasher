@@ -1,7 +1,8 @@
 import { createStore } from 'redux'
 
 const initialState = {
-  authenticted: false
+  authenticted: false,
+  user_routes: {}
 }
 
 const reducer = (state = initialState, action) => {
