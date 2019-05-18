@@ -11,7 +11,7 @@ class ProtectedRoute extends React.Component {
       <Route
         {...props}
         render={props => (
-          this.props.authenticated ?
+          localStorage.getItem('jwt') !== null ?
             <Component {...props} /> :
             <Redirect to='/signin' />
         )}
