@@ -42,9 +42,7 @@ class SignIn extends React.Component {
       if (resObj['message']) {
         document.querySelector('#error-list').innerHTML = resObj['message']
       } else {
-        this.props.dispatch({type: "LOG_IN"})
         localStorage.setItem('jwt', resObj['jwt'])
-        console.log(resObj.user.id)
         this.props.history.push(`/users/${resObj.user.id}`)
       }
     })

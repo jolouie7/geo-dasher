@@ -47,7 +47,6 @@ class SignUp extends React.Component {
         const errorsHTML = errorList.join("<br/><br/>")
         document.querySelector('#error-list').innerHTML = errorsHTML
       } else {
-        this.props.dispatch({type: "LOG_OUT"})
         localStorage.setItem('jwt', resObj['jwt'])
         this.props.history.push(`/users/${resObj['user']['id']}`)
       }
