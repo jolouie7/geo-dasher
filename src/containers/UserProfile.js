@@ -27,7 +27,6 @@ class UserProfile extends React.Component {
     } else {
       let activeRoute;
       if (activeDash) {
-        console.log(activeDash.id)
         activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
         return <RouteCard key={activeDash.id} id={activeRoute ? activeRoute.id : null} route={activeRoute} game={activeDash}/>
       } else {
@@ -55,7 +54,8 @@ class UserProfile extends React.Component {
 
   renderPastDashes = () => {
     let pastDashes = this.props.userGames.filter(game => !game.active)
-    if (pastDashes === undefined) {
+    if (pastDashes === undefined || pastDashes.length === 0) {
+
       return( <p>
                 You don't have any past dashes...
                 <br/>
@@ -63,6 +63,7 @@ class UserProfile extends React.Component {
               </p>
       )
     } else {
+      console.log(pastDashes)
       return pastDashes.map(dash => {
         let thisRoute = this.props.routes.find(route => route.id === dash.route_id)
         return <RouteCard key={dash.id} route={thisRoute} game={dash}/>
@@ -77,11 +78,12 @@ class UserProfile extends React.Component {
   }
 
   render() {
-    // find username and use this as the header of the page
+    let username;
+    Object.keys(this.props.currentUser).length !== 0 ? username = this.props.currentUser.username : username = ""
     return (
       <main>
         <button onClick={this.signOut} style={{align:"left"}}>Sign Out</button>
-        <h1 style={{align:"center"}}>Your Profile</h1>
+        <h1 style={{align:"center"}}>{username}</h1>
 
         <hr/><h3>Active Dash</h3><hr/>
         <ul id="active-dash">
