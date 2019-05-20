@@ -1,6 +1,6 @@
 const initialState = {
   routes: [],
-  user_games: []
+  userGames: []
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -12,7 +12,7 @@ const rootReducer = (state = initialState, action) => {
     case "ADD_ROUTES":
       return {...state, routes: action.routes}
     case "ADD_GAMES":
-      return {...state, user_games: action.games}
+      return {...state, userGames: action.games}
     default:
        return state
   }

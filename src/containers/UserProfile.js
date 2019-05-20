@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import ReactDOM from 'react-dom';
 import DashCard from '../components/DashCard'
 import fetchRoutes from '../actions/fetchRoutes'
 import fetchGames from '../actions/fetchGames'
@@ -17,12 +18,15 @@ class UserProfile extends React.Component {
   }
 
   renderActiveDash = () => {
-    const activeDashTag = document.querySelector('#active-dash')
-    let activeDash = this.props.userGames.find(game => game.active === true)
+    let activeDash = this.props.userGames.find(game => game.active)
     if (activeDash === undefined) {
-      activeDashTag.innerHTML = `<p> You are not currently dashing! </p>`
+      ReactDOM.render(<p>
+                        You are not currently dashing!
+                        <br/>
+                        Click <i>here</i> to begin a game.
+                      </p>, document.getElementById('active-dash'))
     } else {
-      activeDashTag.innerHTML = <DashCard />
+      ReactDOM.render(<DashCard />, document.getElementById('active-dash'))
     }
   }
 
@@ -32,12 +36,8 @@ class UserProfile extends React.Component {
     this.props.dispatch(fetchRoutes())
   }
 
-  componentDidUpdate() {
-    this.renderActiveDash()
-  }
-
   render() {
-
+    const activeDashTag = document.querySelector('#active-dash')
     return (
       <main>
         <button onClick={this.signOut} style={{align:"left"}}>Sign Out</button>
@@ -46,6 +46,7 @@ class UserProfile extends React.Component {
         <hr/><h3>Active Dash</h3><hr/>
         <ul id="active-dash"></ul>
         <br/>
+        {activeDashTag ? this.renderActiveDash() : null}
 
         <hr/><h3>Past Dashes</h3><hr/>
         <ul id="past-dashes"></ul>
@@ -62,7 +63,7 @@ class UserProfile extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userGames: state.user_games,
+    userGames: state.userGames,
     routes: state.routes
   }
 }
@@ -79,6 +80,7 @@ export default connect(mapStateToProps)(UserProfile)
 
 // 3. filter through all the games that belong to this user and store the
 // one with an active attribute under the section 'Active Dash'
+// HALFWAY DONE, NEED TO FIGURE OUT HOW TO RENDER THIS.
 
 // 4. filter through all the games that belong to this user and store all
 // that are not active under 'Past Dashes'
