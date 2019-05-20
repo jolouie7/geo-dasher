@@ -23,7 +23,7 @@ class SignUp extends React.Component {
     })
   }
 
-  handleSubmit = (e, signup_info) => {
+  handleSubmit = (e, signupInfo) => {
     e.preventDefault();
     fetch('http://localhost:3005/api/v1/users', {
       method: "POST",
@@ -33,9 +33,9 @@ class SignUp extends React.Component {
       },
       body: JSON.stringify({
         user: {
-          username: signup_info.username,
-          email: signup_info.email,
-          password: signup_info.password
+          username: signupInfo.username,
+          email: signupInfo.email,
+          password: signupInfo.password
         }
       })
     })
