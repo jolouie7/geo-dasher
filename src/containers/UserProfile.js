@@ -20,13 +20,38 @@ class UserProfile extends React.Component {
   renderActiveDash = () => {
     let activeDash = this.props.userGames.find(game => game.active)
     if (activeDash === undefined) {
-      ReactDOM.render(<p>
-                        You are not currently dashing!
-                        <br/>
-                        Click <i>here</i> to begin a game.
-                      </p>, document.getElementById('active-dash'))
+      return (<p> You are not currently dashing!
+                <br/>
+                Click <i>here</i> to begin a game.
+              </p>
+            )
     } else {
-      ReactDOM.render(<DashCard />, document.getElementById('active-dash'))
+      let activeRoute;
+      if (activeDash) {
+        activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
+        return <DashCard key={activeDash.id} route={activeRoute} game={activeDash}/>
+      } else {
+        return null
+      }
+    }
+  }
+
+  renderCreatedDashes = () => {
+    // let createdDashes = this.props.routes.filter(route => route.creator === current_user.username)
+  }
+
+  renderPastDashes = () => {
+    let pastDashes = this.props.userGames.filter(game => !game.active)
+    if (pastDashes === undefined) {
+      return( <p>
+                You don't have any past dashes...
+              </p>
+            )
+    } else {
+      return pastDashes.map(dash => {
+        let activeRoute = this.props.routes.find(route => route.id === dash.route_id)
+        return <DashCard key={dash.id} route={activeRoute} game={dash}/>
+      })
     }
   }
 
@@ -37,23 +62,30 @@ class UserProfile extends React.Component {
   }
 
   render() {
-    const activeDashTag = document.querySelector('#active-dash')
+    // find username and use this as the header of the page
     return (
       <main>
         <button onClick={this.signOut} style={{align:"left"}}>Sign Out</button>
         <h1 style={{align:"center"}}>Your Profile</h1>
 
         <hr/><h3>Active Dash</h3><hr/>
-        <ul id="active-dash"></ul>
+        <ul id="active-dash">
+          {this.renderActiveDash()}
+        </ul>
         <br/>
-        {activeDashTag ? this.renderActiveDash() : null}
+
+
 
         <hr/><h3>Past Dashes</h3><hr/>
-        <ul id="past-dashes"></ul>
+        <ul id="past-dashes">
+          {this.renderPastDashes()}
+        </ul>
         <br/>
 
         <hr/><h3>Created Dashes</h3><hr/>
-        <ul id="created-dashes"></ul>
+        <ul id="created-dashes">
+
+        </ul>
         <br/>
 
       </main>
@@ -73,14 +105,15 @@ export default connect(mapStateToProps)(UserProfile)
 
 // 1. fetch all routes from http://localhost:3005/api/v1/routes & all
 // games from http://localhost:3005/api/v1/games once the component is loaded
-// DONE!
+// DONE !!!
 
 // 2. when user signs in filter through all routes stored in state &
 // display the ones that this user created under section 'Created Dashes'
 
 // 3. filter through all the games that belong to this user and store the
 // one with an active attribute under the section 'Active Dash'
-// HALFWAY DONE, NEED TO FIGURE OUT HOW TO RENDER THIS.
+// DONE !!!
 
 // 4. filter through all the games that belong to this user and store all
 // that are not active under 'Past Dashes'
+// DONE !!!

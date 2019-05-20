@@ -11,6 +11,7 @@ const fetchGames = (user_id) => {
            })
            .then(res => res.json())
            .then(userObj => {
+             console.log(userObj)
              let games = userObj["user"]["games"]
              dispatch({ type: "ADD_GAMES", games: games })
            })

@@ -1,10 +1,13 @@
 const initialState = {
+  current_user: {},
   routes: [],
   userGames: []
 }
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "SET_CURRENT_USER":
+      return action.user
     case "START_ADDING_ROUTES":
       return state
     case "START_ADDING_GAMES":

@@ -14,8 +14,8 @@ const App = () => {
       <Router>
       <Switch>
         <Route exact path="/wrong-page" component={WrongUrl}/>
-        <Route path="/signin" render={(props) => <SignIn {...props}/>}/>
-        <Route path="/signup" render={(props) => <SignUp {...props}/>}/>
+        <Route exact path="/signin" render={(props) => <SignIn {...props}/>}/>
+        <Route exact path="/signup" render={(props) => <SignUp {...props}/>}/>
         { localStorage.getItem('jwt') ?
           <Route path="/users/:id" component={UserProfile}/> :
           <Unauthorized/>

@@ -42,8 +42,8 @@ class SignIn extends React.Component {
       if (resObj['message']) {
         document.querySelector('#error-list').innerHTML = resObj['message']
       } else {
-        localStorage.setItem('jwt', resObj['jwt'])
         this.props.history.push(`/users/${resObj.user.id}`)
+        localStorage.setItem('jwt', resObj['jwt'])
       }
     })
   }
