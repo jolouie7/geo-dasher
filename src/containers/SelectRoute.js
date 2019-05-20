@@ -43,7 +43,6 @@ class SelectRoute extends React.Component {
 const mapStateToProps = state => {
   return {
     routes: state.filteredRoutes,
-    proximity: state.proximityFilter,
     distance: state.distanceFilter
   }
 }

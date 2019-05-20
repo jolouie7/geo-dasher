@@ -1,8 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import setProximityFilter from '../actions/setProximityFilter'
 import setDistanceFilter from '../actions/setDistanceFilter'
-
 
 class RouteFilter extends React.Component {
 
@@ -11,10 +9,10 @@ class RouteFilter extends React.Component {
     this.props.setDistance(miles)
   }
 
-  render(){
+  render() {
     return (
       <>
-        <label htmlFor="distanceFilter">Total Distance(max)</label>
+        <label htmlFor="distanceFilter">Route Length (max)</label>
         <br/>
         <select onChange={this.handleDistanceChange} name="distanceFilter">
           <option disabled selected value={1000.0}>-</option>
@@ -35,18 +33,8 @@ class RouteFilter extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setDistance: (mi) => { dispatch(setDistanceFilter(mi)) },
-    setProximity: (mi) => { dispatch(setProximityFilter(mi)) },
+    setDistance: (mi) => { dispatch(setDistanceFilter(mi)) }
   }
 }
 
 export default connect(null, mapDispatchToProps)(RouteFilter)
-
-// <label htmlFor="filterProximity">Miles away (max)</label>
-// <br/>
-// <select name="filterProximity">
-//   <option value={1}>1</option>
-//   <option value={2}>2</option>
-//   <option value={3}>3</option>
-//   <option value={1000}>3+</option>
-// </select>
