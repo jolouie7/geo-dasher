@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import ReactDOM from 'react-dom';
-import DashCard from '../components/DashCard'
+import { Link } from 'react-router-dom'
+import RouteCard from '../components/RouteCard'
 import fetchRoutes from '../actions/fetchRoutes'
 import fetchGames from '../actions/fetchGames'
 
@@ -20,16 +19,17 @@ class UserProfile extends React.Component {
   renderActiveDash = () => {
     let activeDash = this.props.userGames.find(game => game.active)
     if (activeDash === undefined) {
-      return (<p> You are not currently dashing!
+      return (<p> You are not currently dashing...
                 <br/>
-                Click <i>here</i> to begin a game.
+                Click <Link to="/routes">here</Link> to select a route!
               </p>
             )
     } else {
       let activeRoute;
       if (activeDash) {
+        console.log(activeDash.id)
         activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
-        return <DashCard key={activeDash.id} route={activeRoute} game={activeDash}/>
+        return <RouteCard key={activeDash.id} id={activeRoute ? activeRoute.id : null} route={activeRoute} game={activeDash}/>
       } else {
         return null
       }
@@ -37,7 +37,20 @@ class UserProfile extends React.Component {
   }
 
   renderCreatedDashes = () => {
-    // let createdDashes = this.props.routes.filter(route => route.creator === current_user.username)
+    let createdRoutes = this.props.routes.filter(route => route.creator === this.props.currentUser.username)
+    if (createdRoutes === undefined) {
+      return( <p>
+                You haven't created any routes yet...
+                <br/>
+                Click <Link to="/routes/new">here</Link> to create a route!
+              </p>
+      )
+    } else {
+      return createdRoutes.map(route => {
+        return <RouteCard key={route.id} route={route}/>
+      })
+    }
+
   }
 
   renderPastDashes = () => {
@@ -45,12 +58,14 @@ class UserProfile extends React.Component {
     if (pastDashes === undefined) {
       return( <p>
                 You don't have any past dashes...
+                <br/>
+                Click <Link to="/routes">here</Link> to select a dash!
               </p>
-            )
+      )
     } else {
       return pastDashes.map(dash => {
-        let activeRoute = this.props.routes.find(route => route.id === dash.route_id)
-        return <DashCard key={dash.id} route={activeRoute} game={dash}/>
+        let thisRoute = this.props.routes.find(route => route.id === dash.route_id)
+        return <RouteCard key={dash.id} route={thisRoute} game={dash}/>
       })
     }
   }
@@ -82,9 +97,9 @@ class UserProfile extends React.Component {
         </ul>
         <br/>
 
-        <hr/><h3>Created Dashes</h3><hr/>
-        <ul id="created-dashes">
-
+        <hr/><h3>Created Routes</h3><hr/>
+        <ul id="created-routes">
+          {this.renderCreatedDashes()}
         </ul>
         <br/>
 
@@ -96,7 +111,8 @@ class UserProfile extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userGames: state.userGames,
-    routes: state.routes
+    routes: state.routes,
+    currentUser: state.currentUser
   }
 }
 

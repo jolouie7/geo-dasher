@@ -11,8 +11,10 @@ const fetchGames = (user_id) => {
            })
            .then(res => res.json())
            .then(userObj => {
-             console.log(userObj)
-             let games = userObj["user"]["games"]
+             console.log(userObj.user)
+             let games = userObj.user.games
+             let user = userObj.user
+             dispatch({ type: "SET_CURRENT_USER", user: user })
              dispatch({ type: "ADD_GAMES", games: games })
            })
   }
