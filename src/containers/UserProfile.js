@@ -5,10 +5,6 @@ import RouteCard from '../components/RouteCard'
 import fetchRoutes from '../actions/fetchRoutes'
 import fetchGames from '../actions/fetchGames'
 
-// let activeDashTag = document.querySelector('#active-dash')
-// let pastDashes = document.querySelector('#past-dashes')
-// let createdDashes = document.querySelector('#created-dashes')
-
 class UserProfile extends React.Component {
 
   signOut = () => {
@@ -28,6 +24,7 @@ class UserProfile extends React.Component {
       let activeRoute;
       if (activeDash) {
         activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
+        console.log(activeDash.active)
         return <RouteCard key={activeDash.id} id={activeRoute ? activeRoute.id : null} route={activeRoute} game={activeDash}/>
       } else {
         return null
@@ -66,9 +63,13 @@ class UserProfile extends React.Component {
       console.log(pastDashes)
       return pastDashes.map(dash => {
         let thisRoute = this.props.routes.find(route => route.id === dash.route_id)
-        return <RouteCard key={dash.id} route={thisRoute} game={dash}/>
+        return <RouteCard key={dash.id} route={thisRoute}/>
       })
     }
+  }
+
+  redirectToCreateRoute = () => {
+    this.props.history.push("/routes/new")
   }
 
   componentDidMount() {
@@ -99,7 +100,10 @@ class UserProfile extends React.Component {
         </ul>
         <br/>
 
-        <hr/><h3>Created Routes</h3><hr/>
+        <hr/>
+          <h3>Created Routes</h3>
+        <hr/>
+        <button onClick={() => {this.redirectToCreateRoute()}}>Create Route</button>
         <ul id="created-routes">
           {this.renderCreatedDashes()}
         </ul>

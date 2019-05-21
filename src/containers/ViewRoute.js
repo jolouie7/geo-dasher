@@ -42,13 +42,12 @@ class ViewRoute extends React.Component {
     if (activeDash === undefined) {
       this.props.createGame(routeId, userId)
       this.props.history.push(`/users/${userId}/active-dash`)
-    } else {
-      let errorMsg = document.querySelector('#error-msg')
-      errorMsg.innerHTML = `<p style='color:red'>
-                              You're already dashing!
-                              Finish or quit your past dash to start this this one.
-                            </p>`
     }
+  }
+
+  redirectToActiveDash = () => {
+    let userId = this.props.currentUser.id
+    this.props.history.push(`/users/${userId}/active-dash`)
   }
 
   componentDidMount() {
@@ -64,6 +63,10 @@ class ViewRoute extends React.Component {
         <p id="error-msg" style={{color:"red"}}>
           {this.checkForActiveDash() ? this.checkForActiveDash() : undefined}
         </p>
+        {this.checkForActiveDash() ?
+         <button onClick={() => {this.redirectToActiveDash()}}>Go To Active Dash</button> :
+         undefined
+        }
         <br/>
           {this.generateRouteInfo()}
       </main>

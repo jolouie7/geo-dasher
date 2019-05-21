@@ -37,7 +37,6 @@ class ViewRouteMap extends React.Component {
   }
 
   render() {
-    console.log(this.props.currentUser)
     return (
       <div id="map" style={style} />
     )
