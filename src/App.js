@@ -4,6 +4,7 @@ import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import UserProfile from './containers/UserProfile'
 import CreateRoute from './containers/CreateRoute'
+import ActiveDash from './containers/ActiveDash'
 import SelectRoute from './containers/SelectRoute'
 import ViewRoute from './containers/ViewRoute'
 import WrongUrl from './components/WrongUrl'
@@ -20,6 +21,10 @@ const App = () => {
         <Route exact path="/signup" render={(props) => <SignUp {...props}/>}/>
         { localStorage.getItem('jwt') ?
           <Route exact path="/users/:id" render={(props) => <UserProfile {...props}/>}/> :
+          <Unauthorized/>
+        }
+        { localStorage.getItem('jwt') ?
+          <Route exact path="/users/:id/active-dash" render={(props) => <ActiveDash {...props}/>}/> :
           <Unauthorized/>
         }
         { localStorage.getItem('jwt') ?

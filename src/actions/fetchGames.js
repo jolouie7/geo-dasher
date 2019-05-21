@@ -1,7 +1,7 @@
-const fetchGames = (user_id) => {
+const fetchGames = (userId) => {
   return (dispatch) => {
     dispatch({ type: "START_ADDING_GAMES" });
-    return fetch(`http://localhost:3005/api/v1/users/${user_id}`, {
+    return fetch(`http://localhost:3005/api/v1/users/${userId}`, {
              method: "GET",
              headers: {
                "Content-Type": "application/json",

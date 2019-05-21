@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import fetchRoutes from '../actions/fetchRoutes'
+import createGame from '../actions/createGame'
 import RouteInfo from '../components/RouteInfo'
 import ViewRouteMap from '../components/ViewRouteMap'
+import { Link } from 'react-router-dom'
 
 class ViewRoute extends React.Component {
 
@@ -11,12 +13,41 @@ class ViewRoute extends React.Component {
     return this.props.routes.find(route => route.id === routeId)
   }
 
+  checkForActiveDash = () => {
+    let activeDash = this.props.currentUser.games.find(game => game.active)
+    let userId = this.props.currentUser.id
+    if (activeDash) {
+      return (
+        `You're already dashing!
+        Finish or quit your past dash to start this this one.`
+      )
+    } else {
+      return undefined
+    }
+  }
+
   generateRouteInfo = () => {
     if ( this.findRoute() === undefined ) {
       return ""
     } else {
       let route = this.findRoute()
       return <RouteInfo route={route} />
+    }
+  }
+
+  beginDash = () => {
+    let userId = this.props.currentUser.id
+    let routeId = parseInt(this.props.match.params.id)
+    let activeDash = this.props.currentUser.games.find(game => game.active)
+    if (activeDash === undefined) {
+      this.props.createGame(routeId, userId)
+      this.props.history.push(`/users/${userId}/active-dash`)
+    } else {
+      let errorMsg = document.querySelector('#error-msg')
+      errorMsg.innerHTML = `<p style='color:red'>
+                              You're already dashing!
+                              Finish or quit your past dash to start this this one.
+                            </p>`
     }
   }
 
@@ -29,7 +60,12 @@ class ViewRoute extends React.Component {
       <main>
         <ViewRouteMap route={this.findRoute()}/>
         <br/><br/><br/>
-        {this.generateRouteInfo()}
+        <button onClick={() => { this.beginDash() }}>Begin Dash!</button>
+        <p id="error-msg" style={{color:"red"}}>
+          {this.checkForActiveDash() ? this.checkForActiveDash() : undefined}
+        </p>
+        <br/>
+          {this.generateRouteInfo()}
       </main>
     )
   }
@@ -38,13 +74,15 @@ class ViewRoute extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    routes: state.routes
+    routes: state.routes,
+    currentUser: state.currentUser
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchRoutes: () => { dispatch(fetchRoutes()) }
+    fetchRoutes: () => { dispatch(fetchRoutes()) },
+    createGame: (userId, routeId) => { dispatch(createGame(userId, routeId)) }
   }
 }
 

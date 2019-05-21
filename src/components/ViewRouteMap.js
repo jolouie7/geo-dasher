@@ -1,5 +1,6 @@
 import React from 'react'
 import L from 'leaflet'
+import { connect } from 'react-redux'
 
 const style = {
   width: "100%",
@@ -20,7 +21,7 @@ class ViewRouteMap extends React.Component {
                               touchZoom: false,
                               doubleClickZoom: false,
                               zoomControl: false,
-                              touchZoom: false  }).setView([x_coord, y_coord], 16);
+                              touchZoom: false  }).setView([x_coord, y_coord], 12);
 
     L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -29,12 +30,14 @@ class ViewRouteMap extends React.Component {
         accessToken: 'pk.eyJ1IjoibWF0am9jYW1wYmVsbCIsImEiOiJjanZudXE5ZGsxcnZzM3lwZmR5YThxdWRoIn0.LhhhzBe2q0GWgtnJYZvBcg'
     }).addTo(this.map)
 
-    let startingPoint = L.marker([x_coord, y_coord], {
+    L.marker([x_coord, y_coord], {
         title: "Start Here!"
     }).addTo(this.map).bindPopup("Start Here!");
+
   }
 
   render() {
+    console.log(this.props.currentUser)
     return (
       <div id="map" style={style} />
     )
@@ -42,4 +45,10 @@ class ViewRouteMap extends React.Component {
 
 }
 
-export default ViewRouteMap
+const mapStateToProps = state => {
+  return {
+    currentUser: state.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(ViewRouteMap)
