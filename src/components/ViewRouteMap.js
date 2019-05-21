@@ -1,6 +1,5 @@
 import React from 'react'
 import L from 'leaflet'
-import { connect } from 'react-redux'
 
 const style = {
   width: "100%",
@@ -44,10 +43,4 @@ class ViewRouteMap extends React.Component {
 
 }
 
-const mapStateToProps = state => {
-  return {
-    currentUser: state.currentUser
-  }
-}
-
-export default connect(mapStateToProps)(ViewRouteMap)
+export default ViewRouteMap

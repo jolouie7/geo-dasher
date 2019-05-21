@@ -4,7 +4,6 @@ import fetchRoutes from '../actions/fetchRoutes'
 import createGame from '../actions/createGame'
 import RouteInfo from '../components/RouteInfo'
 import ViewRouteMap from '../components/ViewRouteMap'
-import { Link } from 'react-router-dom'
 
 class ViewRoute extends React.Component {
 
@@ -15,7 +14,6 @@ class ViewRoute extends React.Component {
 
   checkForActiveDash = () => {
     let activeDash = this.props.currentUser.games.find(game => game.active)
-    let userId = this.props.currentUser.id
     if (activeDash) {
       return (
         `You're already dashing!

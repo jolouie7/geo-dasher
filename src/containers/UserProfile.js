@@ -123,19 +123,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(UserProfile)
-
-
-// 1. fetch all routes from http://localhost:3005/api/v1/routes & all
-// games from http://localhost:3005/api/v1/games once the component is loaded
-// DONE !!!
-
-// 2. when user signs in filter through all routes stored in state &
-// display the ones that this user created under section 'Created Dashes'
-
-// 3. filter through all the games that belong to this user and store the
-// one with an active attribute under the section 'Active Dash'
-// DONE !!!
-
-// 4. filter through all the games that belong to this user and store all
-// that are not active under 'Past Dashes'
-// DONE !!!
