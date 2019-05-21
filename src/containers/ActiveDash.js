@@ -22,7 +22,7 @@ class ActiveDash extends React.Component {
     return(
       <main>
         <h1>{this.getActiveRoute().name}</h1>
-        
+
       </main>
     )
   }

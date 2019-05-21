@@ -5,7 +5,6 @@ const initialState = {
   filteredRoutes: [],
   distanceFilter: null,
   proximityFilter: null
-
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -16,10 +15,19 @@ const rootReducer = (state = initialState, action) => {
       return state
     case "START_ADDING_GAMES":
       return state
+    case "START_CREATING_GAME":
+      return state
     case "ADD_ROUTES":
       return {...state, routes: action.routes, filteredRoutes: action.routes}
     case "ADD_GAMES":
       return {...state, userGames: action.games}
+    case "CREATE_GAME":
+      return {...state,
+              userGames: [...state.userGames, action.game],
+              currentUser: {...state.currentUser,
+                            games: [...state.currentUser.games, action.game]
+                           }
+             }
     case "SET_DISTANCE_FILTER":
       return {...state,
                distanceFilter: action.distance,

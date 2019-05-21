@@ -19,10 +19,7 @@ const App = () => {
         <Route exact path="/wrong-page" component={WrongUrl}/>
         <Route exact path="/signin" render={(props) => <SignIn {...props}/>}/>
         <Route exact path="/signup" render={(props) => <SignUp {...props}/>}/>
-        { localStorage.getItem('jwt') ?
-          <Route exact path="/users/:id" render={(props) => <UserProfile {...props}/>}/> :
-          <Unauthorized/>
-        }
+        <Route exact path="/users/:id" render={(props) => <UserProfile {...props}/>}/>
         { localStorage.getItem('jwt') ?
           <Route exact path="/users/:id/active-dash" render={(props) => <ActiveDash {...props}/>}/> :
           <Unauthorized/>

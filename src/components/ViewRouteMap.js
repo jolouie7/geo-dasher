@@ -26,7 +26,7 @@ class ViewRouteMap extends React.Component {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
         id: 'streets-v9',
-        accessToken: 'pk.eyJ1IjoibWF0am9jYW1wYmVsbCIsImEiOiJjanZudXE5ZGsxcnZzM3lwZmR5YThxdWRoIn0.LhhhzBe2q0GWgtnJYZvBcg'
+        accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
     }).addTo(this.map)
 
     L.marker([x_coord, y_coord], {

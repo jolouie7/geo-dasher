@@ -21,18 +21,40 @@ class CreateRoute extends React.Component {
       this.setState({ checkpoints: [...this.state.checkpoints, [lat, lon]]})
       this.marker.remove();
       this.marker = undefined;
-      this.addCpError.innerHTML = ""
+      this.error.innerHTML = ""
     } else if (this.state.checkpoints.length === 5) {
-      this.addCpError.innerHTML = "You can't have more than 5 checkpoints!"
+      this.error.innerHTML = "You can't have more than 5 checkpoints!"
     } else if (this.marker === undefined) {
-      this.addCpError.innerHTML = "You must add a marker to the map first!"
+      this.error.innerHTML = "You must add a marker to the map first!"
     }
   }
 
   removeCheckpoint = () => {
+    this.error.innerHTML = ""
     this.coordList.lastElementChild.remove()
     let newCheckpointsList = this.state.checkpoints.slice(0, -1)
     this.setState({ checkpoints: newCheckpointsList })
+  }
+
+  createRoute = () => {
+    if (  this.state.checkpoints.length >= 3 &&
+          this.state.name !== "" &&
+          this.state.description !== ""  ) {
+      this.error.innerHTML = ""
+      console.log("Creating Route...")
+
+    } else {
+      if (this.state.checkpoints.length < 3) {
+        this.error.innerHTML = "A route must be at least 3 checkpoints!"
+      } else if (this.state.name === "" && this.state.description === "") {
+        this.error.innerHTML = "You must add a name & description for the route!"
+      } else if (this.state.name === "") {
+        this.error.innerHTML = "You must add a name for the route!"
+      } else if (this.state.description === "") {
+        this.error.innerHTML = "You must add a description for the route!"
+      }
+
+    }
   }
 
   constructor() {
@@ -47,7 +69,7 @@ class CreateRoute extends React.Component {
 
   componentDidMount() {
     this.marker = undefined;
-    this.addCpError = document.querySelector('#add-cp-error')
+    this.error = document.querySelector('#error')
     this.coordList = document.querySelector('#coordinates-list')
     this.map = L.map('map').locate({watch: false, enableHighAccuracy: true, setView: true, maxZoom: 12});
 
@@ -55,7 +77,7 @@ class CreateRoute extends React.Component {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
         id: 'streets-v9',
-        accessToken: 'pk.eyJ1IjoibWF0am9jYW1wYmVsbCIsImEiOiJjanZudXE5ZGsxcnZzM3lwZmR5YThxdWRoIn0.LhhhzBe2q0GWgtnJYZvBcg'
+        accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
     }).addTo(this.map)
 
     this.map.on('click', (e) => {
@@ -73,16 +95,19 @@ class CreateRoute extends React.Component {
     return (
       <main>
         <div id="map" style={style} />
-        <button id="add-checkpoint" onClick={this.addCheckpoint}>Add Checkpoint</button>
-        <button id="remove-checkpoint" onClick={this.removeCheckpoint}>Remove Checkpoint</button>
-        <p id="add-cp-error" style={{color:"red"}}></p>
+        <button onClick={this.addCheckpoint}>Add Checkpoint</button>
+        <button onClick={this.removeCheckpoint}>Remove Checkpoint</button>
+        <br/>
+        <button onClick={this.createRoute} style={{width:"220px"}}>Create Route</button>
+        <p id="error" style={{color:"red"}}></p>
         <h1>Create Route</h1>
         <label htmlFor="name">Name:</label><br/>
         <input name="name"
                type="text"
                maxLength="35"
                onChange={this.handleChange}
-               value={this.state.name}/>
+               value={this.state.name}
+               autoComplete="false"/>
         <br/><br/>
         <label htmlFor="description">Description:</label><br/>
         <textarea name="description"
@@ -90,7 +115,8 @@ class CreateRoute extends React.Component {
                   rows="4"
                   maxLength="140"
                   onChange={this.handleChange}
-                  value={this.state.description}/>
+                  value={this.state.description}
+                  autoComplete="false"/>
         <br/><br/>
         <select defaultValue="" onChange={this.handleChange} name="altTransportation">
           <option value="">Only Walking</option>
@@ -98,6 +124,7 @@ class CreateRoute extends React.Component {
           <option value="bike">Bicycle</option>
           <option value="vehicle">Vehicle</option>
         </select>
+        <h3>Checkpoints</h3>
         <ol id="coordinates-list">
         </ol>
       </main>

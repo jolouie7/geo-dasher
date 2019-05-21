@@ -56,7 +56,7 @@ class UserProfile extends React.Component {
       return( <p>
                 You don't have any past dashes...
                 <br/>
-                Click <Link to="/routes">here</Link> to select a dash!
+                Click <Link to="/routes">here</Link> to select a route!
               </p>
       )
     } else {

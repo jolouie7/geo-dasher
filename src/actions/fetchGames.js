@@ -15,7 +15,6 @@ const fetchGames = (userId) => {
                let user = userObj.user
                dispatch({ type: "SET_CURRENT_USER", user: user })
                dispatch({ type: "ADD_GAMES", games: games })
-
            })
            .catch(parsedJSON => null)
   }

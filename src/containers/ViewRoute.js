@@ -4,6 +4,7 @@ import fetchRoutes from '../actions/fetchRoutes'
 import createGame from '../actions/createGame'
 import RouteInfo from '../components/RouteInfo'
 import ViewRouteMap from '../components/ViewRouteMap'
+import { Link } from 'react-router-dom'
 
 class ViewRoute extends React.Component {
 
@@ -14,6 +15,7 @@ class ViewRoute extends React.Component {
 
   checkForActiveDash = () => {
     let activeDash = this.props.currentUser.games.find(game => game.active)
+    let userId = this.props.currentUser.id
     if (activeDash) {
       return (
         `You're already dashing!
@@ -38,8 +40,7 @@ class ViewRoute extends React.Component {
     let routeId = parseInt(this.props.match.params.id)
     let activeDash = this.props.currentUser.games.find(game => game.active)
     if (activeDash === undefined) {
-      this.props.createGame(routeId, userId)
-      this.props.history.push(`/users/${userId}/active-dash`)
+      this.props.createGame(routeId, userId, this.props.history)
     }
   }
 
@@ -55,7 +56,7 @@ class ViewRoute extends React.Component {
   render() {
     return (
       <main>
-        <ViewRouteMap route={this.findRoute()}/>
+        <ViewRouteMap route={this.findRoute()} />
         <br/><br/><br/>
         <button onClick={() => { this.beginDash() }}>Begin Dash!</button>
         <p id="error-msg" style={{color:"red"}}>
@@ -83,7 +84,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchRoutes: () => { dispatch(fetchRoutes()) },
-    createGame: (userId, routeId) => { dispatch(createGame(userId, routeId)) }
+    createGame: (userId, routeId, history) => { dispatch(createGame(userId, routeId, history)) }
   }
 }
 
