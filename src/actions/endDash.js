@@ -12,13 +12,11 @@ const endDash = (gameId, history, userId) => {
                "Accept": 'application/json'
              },
              body: JSON.stringify({
-               game: {
-                 active: false
-               }
+               active: false
              })
            })
-           .then(res => res.json() )
-           .then(parsedJSON => console.log(parsedJSON) )
+           .then(res => res.json())
+           .then(() => history.push(`/users/${userId}`) )
   }
 }
 

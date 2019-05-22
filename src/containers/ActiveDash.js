@@ -23,10 +23,9 @@ class ActiveDash extends React.Component {
     return this.getActiveRoute().id
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     this.userId = parseInt(this.props.match.params.id)
-    this.routeId = this.getActiveRoute().id
-    this.name = this.getActiveRoute().name
+    this.gameId = this.getActiveDash().id
   }
 
   render() {
@@ -34,7 +33,7 @@ class ActiveDash extends React.Component {
       <main>
         <h1>{this.getActiveRoute().name}</h1>
         <button onClick={() => {
-          this.props.endDash(this.routeId, this.props.history ,this.userId) }
+          this.props.endDash(this.gameId, this.props.history ,this.userId) }
         }>
           End Dash
         </button>
@@ -52,7 +51,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    endDash: (gameId, history, userId) => { endDash(gameId, history, userId) }
+    endDash: (gameId, history, userId) => dispatch(endDash(gameId, history, userId))
   }
 }
 

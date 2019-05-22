@@ -59,7 +59,6 @@ class UserProfile extends React.Component {
               </p>
       )
     } else {
-      console.log(pastDashes)
       return pastDashes.map(dash => {
         let thisRoute = this.props.routes.find(route => route.id === dash.route_id)
         return <RouteCard key={dash.id} route={thisRoute}/>
