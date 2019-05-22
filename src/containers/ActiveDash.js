@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import endDash from '../actions/endDash'
 
 class ActiveDash extends React.Component {
 
@@ -18,11 +19,25 @@ class ActiveDash extends React.Component {
     }
   }
 
+  getActiveId = () => {
+    return this.getActiveRoute().id
+  }
+
+  componentDidUpdate() {
+    this.userId = parseInt(this.props.match.params.id)
+    this.routeId = this.getActiveRoute().id
+    this.name = this.getActiveRoute().name
+  }
+
   render() {
     return(
       <main>
         <h1>{this.getActiveRoute().name}</h1>
-
+        <button onClick={() => {
+          this.props.endDash(this.routeId, this.props.history ,this.userId) }
+        }>
+          End Dash
+        </button>
       </main>
     )
   }
@@ -35,4 +50,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(ActiveDash)
+const mapDispatchToProps = dispatch => {
+  return {
+    endDash: (gameId, history, userId) => { endDash(gameId, history, userId) }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ActiveDash)

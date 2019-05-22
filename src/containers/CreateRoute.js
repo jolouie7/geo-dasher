@@ -141,9 +141,9 @@ class CreateRoute extends React.Component {
         <label htmlFor="altTransportation">Alternate Transporation:</label>
         <select defaultValue="" onChange={this.handleChange} name="altTransportation">
           <option value="">Only Walking</option>
-          <option value="transit">Transit</option>
-          <option value="bike">Bicycle</option>
-          <option value="vehicle">Vehicle</option>
+          <option value="Transit">Transit</option>
+          <option value="Bike">Bicycle</option>
+          <option value="Vehicle">Vehicle</option>
         </select>
         <h3>Checkpoints</h3>
         <ol id="coordinates-list">
@@ -168,10 +168,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateRoute)
-
-
-// console.log(distance)
-// console.log(routeInfo)
-// console.log(username)
-// console.log(routeInfo.checkpoints[0].lat)
-// console.log(routeInfo.checkpoints[0].lng)
