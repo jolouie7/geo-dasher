@@ -1,6 +1,7 @@
 import React from 'react'
 import L from 'leaflet'
 import { connect } from 'react-redux'
+import createRoute from '../actions/createRoute'
 
 const style = {
   width: "100%",
@@ -13,12 +14,12 @@ class CreateRoute extends React.Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
-  addCheckpoint = (lat, lon) => {
+  addCheckpoint = () => {
     if (this.marker && this.state.checkpoints.length < 5) {
       let cpLat = this.marker.getLatLng().lat
       let cpLon = this.marker.getLatLng().lng
       this.coordList.innerHTML += `<li>Lat: ${cpLat}, Lon: ${cpLon}</li>`
-      this.setState({ checkpoints: [...this.state.checkpoints, [lat, lon]]})
+      this.setState({ checkpoints: [...this.state.checkpoints, this.marker.getLatLng()] })
       this.marker.remove();
       this.marker = undefined;
       this.error.innerHTML = ""
@@ -30,19 +31,37 @@ class CreateRoute extends React.Component {
   }
 
   removeCheckpoint = () => {
-    this.error.innerHTML = ""
-    this.coordList.lastElementChild.remove()
-    let newCheckpointsList = this.state.checkpoints.slice(0, -1)
-    this.setState({ checkpoints: newCheckpointsList })
+    if (this.coordList.lastElementChild !== null) {
+      this.error.innerHTML = ""
+      this.coordList.lastElementChild.remove()
+      let newCheckpointsList = this.state.checkpoints.slice(0, -1)
+      this.setState({ checkpoints: newCheckpointsList })
+    } else {
+      this.error.innerHTML = "No more checkpoints to remove!"
+    }
   }
 
-  createRoute = () => {
+  roundUp = (num, precision) => {
+    precision = Math.pow(10, precision)
+    return Math.ceil(num * precision) / precision
+  }
+
+  buildNewRoute = () => {
     if (  this.state.checkpoints.length >= 3 &&
           this.state.name !== "" &&
           this.state.description !== ""  ) {
-      this.error.innerHTML = ""
-      console.log("Creating Route...")
+      let routeInfo = this.state
+      let username = this.props.currentUser.username
+      let history = this.props.history
 
+      let distance = 0;
+      let checkpoints = this.state.checkpoints
+      for (let i=0; i < checkpoints.length-1; i++) {
+        distance += this.map.distance(checkpoints[i],checkpoints[i+1]) * 0.0006213712
+      }
+      distance = this.roundUp(distance, 1)
+      this.props.createRoute(routeInfo, username, distance, history)
+      this.error.innerHTML = ""
     } else {
       if (this.state.checkpoints.length < 3) {
         this.error.innerHTML = "A route must be at least 3 checkpoints!"
@@ -98,7 +117,8 @@ class CreateRoute extends React.Component {
         <button onClick={this.addCheckpoint}>Add Checkpoint</button>
         <button onClick={this.removeCheckpoint}>Remove Checkpoint</button>
         <br/>
-        <button onClick={this.createRoute} style={{width:"220px"}}>Create Route</button>
+        <button onClick={() => { this.buildNewRoute() }}
+                style={{width:"220px"}}>Create Route</button>
         <p id="error" style={{color:"red"}}></p>
         <h1>Create Route</h1>
         <label htmlFor="name">Name:</label><br/>
@@ -107,7 +127,7 @@ class CreateRoute extends React.Component {
                maxLength="35"
                onChange={this.handleChange}
                value={this.state.name}
-               autoComplete="false"/>
+               autocomplete="false"/>
         <br/><br/>
         <label htmlFor="description">Description:</label><br/>
         <textarea name="description"
@@ -116,8 +136,9 @@ class CreateRoute extends React.Component {
                   maxLength="140"
                   onChange={this.handleChange}
                   value={this.state.description}
-                  autoComplete="false"/>
+                  autocomplete="false"/>
         <br/><br/>
+        <label htmlFor="altTransportation">Alternate Transporation:</label>
         <select defaultValue="" onChange={this.handleChange} name="altTransportation">
           <option value="">Only Walking</option>
           <option value="transit">Transit</option>
@@ -138,4 +159,19 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(CreateRoute)
+const mapDispatchToProps = dispatch => {
+  return {
+    createRoute: (routeInfo, username, distance, history) => {
+      { dispatch(createRoute(routeInfo, username, distance, history)) }
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateRoute)
+
+
+// console.log(distance)
+// console.log(routeInfo)
+// console.log(username)
+// console.log(routeInfo.checkpoints[0].lat)
+// console.log(routeInfo.checkpoints[0].lng)

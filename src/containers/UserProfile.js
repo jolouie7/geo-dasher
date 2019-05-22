@@ -24,7 +24,6 @@ class UserProfile extends React.Component {
       let activeRoute;
       if (activeDash) {
         activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
-        console.log(activeDash.active)
         return <RouteCard key={activeDash.id} id={activeRoute ? activeRoute.id : null} route={activeRoute} game={activeDash}/>
       } else {
         return null
