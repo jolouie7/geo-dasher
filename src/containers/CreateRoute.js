@@ -138,7 +138,7 @@ class CreateRoute extends React.Component {
                   value={this.state.description}
                   autocomplete="false"/>
         <br/><br/>
-        <label htmlFor="altTransportation">Alternate Transporation:</label>
+        <label htmlFor="altTransportation">Alternate Transporation:</label><br/>
         <select defaultValue="" onChange={this.handleChange} name="altTransportation">
           <option value="">Only Walking</option>
           <option value="Transit">Transit</option>

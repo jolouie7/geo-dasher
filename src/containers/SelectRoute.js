@@ -21,7 +21,7 @@ class SelectRoute extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getRoutes()
+    this.props.fetchRoutes()
   }
 
   render() {
@@ -49,7 +49,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getRoutes: () => { dispatch(fetchRoutes()) }
+    fetchRoutes: () => { dispatch(fetchRoutes()) }
   }
 }
 

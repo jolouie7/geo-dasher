@@ -17,12 +17,7 @@ class ViewRoute extends React.Component {
     let activeDash = this.props.currentUser.games.find(game => game.active)
     let userId = this.props.currentUser.id
     if (activeDash) {
-      return (
-        `You're already dashing!
-        Finish or quit your past dash to start this this one.`
-      )
-    } else {
-      return undefined
+      return true
     }
   }
 
@@ -50,7 +45,14 @@ class ViewRoute extends React.Component {
   }
 
   componentDidMount() {
+    this.errors = document.querySelector('#error-msg')
     this.props.fetchRoutes()
+    if (this.checkForActiveDash()) {
+      let activeDashButton = document.querySelector(`#to-active-dash`)
+      activeDashButton.style.display = "inline-block"
+      this.errors.innerHTML = `You're already dashing!
+      Finish or quit your past dash to start this this one.`
+    }
   }
 
   render() {
@@ -60,12 +62,13 @@ class ViewRoute extends React.Component {
         <br/><br/><br/>
         <button onClick={() => { this.beginDash() }}>Begin Dash!</button>
         <p id="error-msg" style={{color:"red"}}>
-          {this.checkForActiveDash() ? this.checkForActiveDash() : undefined}
         </p>
-        {this.checkForActiveDash() ?
-         <button onClick={() => {this.redirectToActiveDash()}}>Go To Active Dash</button> :
-         undefined
-        }
+        <button id="to-active-dash"
+                onClick={() => {this.redirectToActiveDash()}}
+                style={{display:'none'}}
+              >
+          Go To Active Dash
+        </button>
         <br/>
           {this.generateRouteInfo()}
       </main>
@@ -89,3 +92,10 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewRoute)
+
+// {this.checkForActiveDash() ? this.checkForActiveDash() : undefined}
+
+// {this.checkForActiveDash() ?
+//  <button onClick={() => {this.redirectToActiveDash()}}>Go To Active Dash</button> :
+//  undefined
+// }
