@@ -9,8 +9,6 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_CURRENT_USER":
-      return {...state, currentUser: action.user}
     case "START_ADDING_ROUTES":
       return state
     case "START_ADDING_GAMES":
@@ -19,6 +17,10 @@ const rootReducer = (state = initialState, action) => {
       return state
     case "START_ENDING_DASH":
       return state
+    case "BEGIN_UPDATING_GAME":
+      return state
+    case "SET_CURRENT_USER":
+      return {...state, currentUser: action.user}
     case "ADD_ROUTES":
       return {...state, routes: action.routes, filteredRoutes: action.routes}
     case "ADD_GAMES":
@@ -31,19 +33,30 @@ const rootReducer = (state = initialState, action) => {
                            }
              }
     case "END_DASH":
-      console.log(action.game)
       let newGames = state.currentUser.games.map(game => {
                           if (game.id === action.game.id) {
                             game.active = false
                           }
                         })
-      console.log(newGames)
       return {...state,
               userGames: [...state.userGames, newGames],
               currentUser: {...state.currentUser,
                              games: [...state.currentUser.games, action.game]
                            }
              }
+    case "UPDATE_GAME":
+      let updatedGames = state.currentUser.games.map(game => {
+        if (game.active) {
+          return action.game
+        }
+      })
+      return {...state,
+              userGames: updatedGames,
+              currentUser: {...state.currentUser,
+                             games: updatedGames
+                           }
+             }
+
     case "SET_DISTANCE_FILTER":
       return {...state,
                distanceFilter: action.distance,
