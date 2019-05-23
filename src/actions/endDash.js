@@ -14,7 +14,7 @@ const endDash = (gameId, history, userId) => {
            })
            .then(res => res.json())
            .then(game => {
-             dispatch({ type: "END_DASH", game: game})
+             dispatch({ type: "END_DASH", game: game })
            })
            .then(() => history.push(`/users/${userId}`) )
   }

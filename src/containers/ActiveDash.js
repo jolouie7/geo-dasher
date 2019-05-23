@@ -100,7 +100,13 @@ class ActiveDash extends React.Component {
         </h1>
         <div id="next-coords"></div>
         <button onClick={() => {
-          this.props.updateGame(this.gameId, this.props.history, this.nextCheckpointIndex, this.activeDash)
+          this.props.updateGame(this.gameId,
+                                this.props.history,
+                                this.nextCheckpointIndex,
+                                this.activeDash,
+                                this.routeSites,
+                                this.nextCheckpointCoords,
+                                this.userId)
         }}>
           At Checkpoint
         </button>
@@ -124,7 +130,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     endDash: (gameId, history, userId) => dispatch(endDash(gameId, history, userId)),
-    updateGame: (gameId, history, nextCP, game) => dispatch(updateGame(gameId, history, nextCP, game))
+    updateGame: (gameId, history, nextCP, game, sites, nextCoords, userId) =>  (
+      dispatch(updateGame(gameId, history, nextCP, game, sites, nextCoords, userId))
+    )
   }
 }
 
