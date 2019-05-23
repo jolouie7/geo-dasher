@@ -19,32 +19,32 @@ class App extends React.Component {
     return (
       <div className="App">
         <Router>
-        <Switch>
-          <Route exact path="/wrong-page" component={WrongUrl}/>
-          <Route exact path="/signin" render={(props) => <SignIn {...props}/>}/>
-          <Route exact path="/signup" render={(props) => <SignUp {...props}/>}/>
-          { localStorage.getItem('jwt') ?
-            <Route exact path="/users/:id/active-dash" render={(props) => <ActiveDash {...props}/>}/> :
-            <Unauthorized/>
-          }
-          { localStorage.getItem('jwt') ?
-            <Route exact path="/users/:id" render={(props) => <UserProfile {...props}/>}/> :
-            <Unauthorized/>
-          }
-          { localStorage.getItem('jwt') ?
-            <Route exact path="/routes/new" render={(props) => <CreateRoute {...props}/>}/> :
-            <Unauthorized/>
-          }
-          { localStorage.getItem('jwt') ?
-            <Route exact path="/routes" render={(props) => <SelectRoute {...props}/>}/> :
-            <Unauthorized/>
-          }
-          { localStorage.getItem('jwt') ?
-            <Route exact path="/routes/:id" render={(props) => <ViewRoute {...props}/>}/> :
-            <Unauthorized/>
-          }
-          <Redirect to="/wrong-page"/>
-        </Switch>
+          <Switch>
+            <Route exact path="/wrong-page" component={WrongUrl}/>
+            <Route exact path="/signin" render={(props) => <SignIn {...props}/>}/>
+            <Route exact path="/signup" render={(props) => <SignUp {...props}/>}/>
+            { localStorage.getItem('jwt') ?
+              <Route exact path="/users/:id/active-dash" render={(props) => <ActiveDash {...props}/>}/> :
+              <Unauthorized/>
+            }
+            { localStorage.getItem('jwt') ?
+              <Route exact path="/users/:id" render={(props) => <UserProfile {...props}/>}/> :
+              <Unauthorized/>
+            }
+            { localStorage.getItem('jwt') ?
+              <Route exact path="/routes/new" render={(props) => <CreateRoute {...props}/>}/> :
+              <Unauthorized/>
+            }
+            { localStorage.getItem('jwt') ?
+              <Route exact path="/routes" render={(props) => <SelectRoute {...props}/>}/> :
+              <Unauthorized/>
+            }
+            { localStorage.getItem('jwt') ?
+              <Route exact path="/routes/:id" render={(props) => <ViewRoute {...props}/>}/> :
+              <Unauthorized/>
+            }
+            <Redirect to="/wrong-page"/>
+          </Switch>
         </Router>
       </div>
     );

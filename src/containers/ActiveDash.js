@@ -20,7 +20,6 @@ class ActiveDash extends React.Component {
   }
 
   getActiveRoute = () => {
-    console.log(this.props.currentUser.games)
     if (this.props.currentUser.games) {
       let activeDash = this.props.currentUser.games.find(game => game.active)
       if (activeDash) {
@@ -45,7 +44,7 @@ class ActiveDash extends React.Component {
 
       this.marker.remove()
       this.marker = undefined
-      
+
       this.marker = L.marker(this.nextCheckpointCoords, {
           title: "Next Checkpoint"
       }).addTo(this.map).bindPopup("Next Checkpoint!")
@@ -101,7 +100,7 @@ class ActiveDash extends React.Component {
         </h1>
         <div id="next-coords"></div>
         <button onClick={() => {
-          this.props.updateGame(this.gameId, this.props.history, this.nextCheckpointIndex)
+          this.props.updateGame(this.gameId, this.props.history, this.nextCheckpointIndex, this.activeDash)
         }}>
           At Checkpoint
         </button>
@@ -125,7 +124,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     endDash: (gameId, history, userId) => dispatch(endDash(gameId, history, userId)),
-    updateGame: (gameId, history, nextCP) => dispatch(updateGame(gameId, history, nextCP))
+    updateGame: (gameId, history, nextCP, game) => dispatch(updateGame(gameId, history, nextCP, game))
   }
 }
 

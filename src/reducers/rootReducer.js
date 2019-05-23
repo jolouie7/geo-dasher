@@ -26,36 +26,37 @@ const rootReducer = (state = initialState, action) => {
     case "ADD_GAMES":
       return {...state, userGames: action.games}
     case "CREATE_GAME":
+      let newGamesAfterCreate = state.currentUser.games.map(game => {
+        if (game.id === action.game.id) {
+          game = action.game
+        }
+        return game
+      })
       return {...state,
-              userGames: [...state.userGames, action.game],
+              userGames: newGamesAfterCreate,
               currentUser: {...state.currentUser,
-                            games: [...state.currentUser.games, action.game]
+                            games: newGamesAfterCreate
                            }
              }
     case "END_DASH":
-      let newGames = state.currentUser.games.map(game => {
+      let newGamesAfterEnd = state.currentUser.games.map(game => {
         if (game.id === action.game.id) {
           game = {...game, active: false}
         }
         return game
       })
-      console.log(`Next state:`, {...state,
-              userGames: newGames,
-              currentUser: {...state.currentUser,
-                            games: newGames
-                           }
-             })
       return {...state,
-              userGames: newGames,
+              userGames: newGamesAfterEnd,
               currentUser: {...state.currentUser,
-                            games: newGames
+                            games: newGamesAfterEnd
                            }
              }
     case "UPDATE_GAME":
       let updatedGames = state.currentUser.games.map(game => {
         if (game.active) {
-          return action.game
+          game = action.game
         }
+        return game
       })
       return {...state,
               userGames: updatedGames,
@@ -63,7 +64,6 @@ const rootReducer = (state = initialState, action) => {
                              games: updatedGames
                            }
              }
-
     case "SET_DISTANCE_FILTER":
       return {...state,
                distanceFilter: action.distance,
