@@ -19,6 +19,8 @@ const rootReducer = (state = initialState, action) => {
       return state
     case "BEGIN_UPDATING_GAME":
       return state
+    case "BEGIN_SIGN_IN":
+      return state
     case "SET_CURRENT_USER":
       return {...state, currentUser: action.user}
     case "ADD_ROUTES":

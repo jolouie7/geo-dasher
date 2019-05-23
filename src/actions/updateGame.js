@@ -9,7 +9,6 @@ const updateGame = (gameId, history, nextCP, game, sites, nextCoords, userId) =>
   let travelTime = `${d}:${h}:${m}:${s}`
   let lastCoords = [sites[sites.length-1].x_coordinate, sites[sites.length-1].y_coordinate]
   if (nextCoords[0] == lastCoords[0] && nextCoords[1] == lastCoords[1]) {
-    console.log("Finished")
     return (dispatch) => {
       dispatch({ type: "BEGIN_UPDATING_GAME" })
       return fetch(`http://localhost:3005/api/v1/games/${gameId}`, {
@@ -33,7 +32,6 @@ const updateGame = (gameId, history, nextCP, game, sites, nextCoords, userId) =>
              .then(() => history.push(`/users/${userId}`))
     }
   } else {
-    console.log("Unfinished")
     return (dispatch) => {
       dispatch({ type: "BEGIN_UPDATING_GAME" })
       return fetch(`http://localhost:3005/api/v1/games/${gameId}`, {

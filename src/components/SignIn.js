@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import signIn from '../actions/signIn'
 
 class SignIn extends React.Component {
 
@@ -21,37 +23,11 @@ class SignIn extends React.Component {
     })
   }
 
-  handleSubmit = (e, login_info) => {
-    e.preventDefault();
-    fetch('http://localhost:3005/api/v1/signin', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        user: {
-          username: login_info.username,
-          password: login_info.password
-        }
-      })
-    })
-    .then(res => res.json())
-    .then(resObj => {
-      if (resObj['message']) {
-        document.querySelector('#error-list').innerHTML = resObj['message']
-      } else {
-        localStorage.setItem('jwt', resObj['jwt'])
-        this.props.history.push(`/users/${resObj.user.id}`)
-      }
-    })
-  }
-
   render() {
     return (
       <div>
         <p>Sign In</p>
-        <form onSubmit={(e) => { this.handleSubmit(e, this.state) }}>
+        <form onSubmit={(e) => { this.props.signIn(e, this.state, this.props.history) }}>
           <label htmlFor="username">Username: </label>
           <input onChange={this.handleChange}
             name="username"
@@ -75,9 +51,14 @@ class SignIn extends React.Component {
       </div>
     )
   }
+}
 
+const mapDispatchToProps = dispatch => {
+  return {
+    signIn: (e, login_info, history) => { dispatch(signIn(e, login_info, history)) }
+  }
 }
 
 
 
-export default SignIn
+export default connect(null, mapDispatchToProps)(SignIn)
