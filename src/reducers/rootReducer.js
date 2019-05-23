@@ -34,14 +34,21 @@ const rootReducer = (state = initialState, action) => {
              }
     case "END_DASH":
       let newGames = state.currentUser.games.map(game => {
-                          if (game.id === action.game.id) {
-                            game.active = false
-                          }
-                        })
-      return {...state,
-              userGames: [...state.userGames, newGames],
+        if (game.id === action.game.id) {
+          game = {...game, active: false}
+        }
+        return game
+      })
+      console.log(`Next state:`, {...state,
+              userGames: newGames,
               currentUser: {...state.currentUser,
-                             games: [...state.currentUser.games, action.game]
+                            games: newGames
+                           }
+             })
+      return {...state,
+              userGames: newGames,
+              currentUser: {...state.currentUser,
+                            games: newGames
                            }
              }
     case "UPDATE_GAME":

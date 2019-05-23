@@ -3,8 +3,7 @@ import L from 'leaflet'
 import { connect } from 'react-redux'
 import endDash from '../actions/endDash'
 import updateGame from '../actions/updateGame'
-
-
+import fetchGames from '../actions/fetchGames'
 
 const style = {
   width: "100%",
@@ -21,10 +20,13 @@ class ActiveDash extends React.Component {
   }
 
   getActiveRoute = () => {
-    let activeDash = this.props.currentUser.games.find(game => game.active)
-    if (activeDash) {
-      let activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
-      return activeRoute
+    console.log(this.props.currentUser.games)
+    if (this.props.currentUser.games) {
+      let activeDash = this.props.currentUser.games.find(game => game.active)
+      if (activeDash) {
+        let activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
+        return activeRoute
+      }
     }
   }
 
@@ -32,11 +34,33 @@ class ActiveDash extends React.Component {
     return this.getActiveRoute().id
   }
 
+  componentDidUpdate() {
+    this.activeDash = this.props.currentUser.games.find(game => game.active)
+    if (this.activeDash) {
+      this.nextCheckpointIndex = (this.activeDash.current_checkpoint + 1)
+      this.nextCheckpointCoords = [this.routeSites[this.nextCheckpointIndex].x_coordinate,
+                                   this.routeSites[this.nextCheckpointIndex].y_coordinate]
+
+      this.map.setView(this.nextCheckpointCoords, 12)
+
+      this.marker.remove()
+      this.marker = undefined
+      
+      this.marker = L.marker(this.nextCheckpointCoords, {
+          title: "Next Checkpoint"
+      }).addTo(this.map).bindPopup("Next Checkpoint!")
+
+      this.nextCoordsText.innerHTML = `<p>LATITUDE: ${this.nextCheckpointCoords[0]}</p>
+                                  <p>LONGITUDE: ${this.nextCheckpointCoords[1]}</p>`
+    }
+  }
+
   componentDidMount() {
-    let nextCoordsText = document.querySelector("#next-coords")
+    this.nextCoordsText = document.querySelector("#next-coords")
     this.userId = parseInt(this.props.match.params.id)
     this.gameId = this.getActiveDash().id
     this.activeDash = this.props.currentUser.games.find(game => game.active)
+    this.dashName = this.activeDash.name
     this.routeSites = this.props.routes.find(route => route.id === this.activeDash.route_id).sites
     this.nextCheckpointIndex = (this.activeDash.current_checkpoint + 1)
     this.nextCheckpointCoords = [this.routeSites[this.nextCheckpointIndex].x_coordinate,
@@ -58,20 +82,23 @@ class ActiveDash extends React.Component {
         accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
     }).addTo(this.map)
 
-    L.marker(this.nextCheckpointCoords, {
+    this.marker = L.marker(this.nextCheckpointCoords, {
         title: "Next Checkpoint"
     }).addTo(this.map).bindPopup("Next Checkpoint!");
 
-    nextCoordsText.innerHTML = `<p>LATITUDE: ${this.nextCheckpointCoords[0]}</p>
+    this.nextCoordsText.innerHTML = `<p>LATITUDE: ${this.nextCheckpointCoords[0]}</p>
                                 <p>LONGITUDE: ${this.nextCheckpointCoords[1]}</p>`
-
   }
 
   render() {
     return(
       <main>
         <div id="map" style={style}></div>
-        <h1>{this.getActiveRoute().name}</h1>
+        <h1>
+          {this.getActiveRoute() ?
+           this.getActiveRoute().name :
+           null}
+        </h1>
         <div id="next-coords"></div>
         <button onClick={() => {
           this.props.updateGame(this.gameId, this.props.history, this.nextCheckpointIndex)

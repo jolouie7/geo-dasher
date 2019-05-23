@@ -22,8 +22,6 @@ const createRoute = (routeInfo, username, distance, history) => {
            })
            .then(res => res.json())
            .then(route => {
-             console.log(route)
-             console.log(routeInfo.checkpoints)
              let coordList = routeInfo.checkpoints.map(checkpoint => {
                return [checkpoint.lat, checkpoint.lng]
              })
@@ -43,9 +41,10 @@ const createRoute = (routeInfo, username, distance, history) => {
                  })
                })
              })
+             return route.id
            })
            .catch(error => console.log(error))
-           .then(() => history.push('/routes'))
+           .then(routeId => history.push(`/routes/${routeId}`))
 
   }
 }

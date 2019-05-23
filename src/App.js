@@ -23,13 +23,12 @@ class App extends React.Component {
           <Route exact path="/wrong-page" component={WrongUrl}/>
           <Route exact path="/signin" render={(props) => <SignIn {...props}/>}/>
           <Route exact path="/signup" render={(props) => <SignUp {...props}/>}/>
-
           { localStorage.getItem('jwt') ?
-            <Route exact path="/users/:id" render={(props) => <UserProfile {...props}/>}/> :
+            <Route exact path="/users/:id/active-dash" render={(props) => <ActiveDash {...props}/>}/> :
             <Unauthorized/>
           }
           { localStorage.getItem('jwt') ?
-            <Route exact path="/users/:id/active-dash" render={(props) => <ActiveDash {...props}/>}/> :
+            <Route exact path="/users/:id" render={(props) => <UserProfile {...props}/>}/> :
             <Unauthorized/>
           }
           { localStorage.getItem('jwt') ?
