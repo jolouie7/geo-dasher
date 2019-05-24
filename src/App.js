@@ -14,7 +14,7 @@ import './App.scss';
 
 class App extends React.Component {
 
-  componentDidUpdate() {
+  componentDidMount() {
     console.log(this.props.currentUser)
   }
 
@@ -56,7 +56,7 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    currentUser: state.currentuser
+    currentUser: state.currentUser
   }
 }
 
