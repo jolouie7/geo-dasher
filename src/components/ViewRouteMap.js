@@ -12,7 +12,7 @@ class ViewRouteMap extends React.Component {
     let x_coord = this.props.route.sites[0].x_coordinate
     let y_coord = this.props.route.sites[0].y_coordinate
 
-    this.map = L.map('map', { dragging: false ,
+    this.map = L.map('view-map', { dragging: false ,
                               scrollWheelZoom: false,
                               keyboard: false,
                               boxZoom: false,
@@ -37,7 +37,7 @@ class ViewRouteMap extends React.Component {
 
   render() {
     return (
-      <div id="map" style={style} />
+      <div id="view-map" style={style} />
     )
   }
 

@@ -90,7 +90,7 @@ class CreateRoute extends React.Component {
     this.marker = undefined;
     this.error = document.querySelector('#error')
     this.coordList = document.querySelector('#coordinates-list')
-    this.map = L.map('map').locate({watch: false, enableHighAccuracy: true, setView: true, maxZoom: 12});
+    this.map = L.map('create-map').locate({watch: false, enableHighAccuracy: true, setView: true, maxZoom: 12});
 
     L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -113,7 +113,7 @@ class CreateRoute extends React.Component {
   render() {
     return (
       <main>
-        <div id="map" style={style} />
+        <div id="create-map" style={style} />
         <button onClick={this.addCheckpoint}>Add Checkpoint</button>
         <button onClick={this.removeCheckpoint}>Remove Checkpoint</button>
         <br/>

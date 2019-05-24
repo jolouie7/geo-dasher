@@ -18,9 +18,7 @@ class SignIn extends React.Component {
   }
 
   handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    this.setState({ [e.target.name]: e.target.value })
   }
 
   render() {
@@ -58,7 +56,5 @@ const mapDispatchToProps = dispatch => {
     signIn: (e, login_info, history) => { dispatch(signIn(e, login_info, history)) }
   }
 }
-
-
 
 export default connect(null, mapDispatchToProps)(SignIn)

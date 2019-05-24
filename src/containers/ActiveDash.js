@@ -64,7 +64,7 @@ class ActiveDash extends React.Component {
     this.nextCheckpointIndex = (this.activeDash.current_checkpoint + 1)
     this.nextCheckpointCoords = [this.routeSites[this.nextCheckpointIndex].x_coordinate,
                                  this.routeSites[this.nextCheckpointIndex].y_coordinate]
-    this.map =  L.map('map', { dragging: false ,
+    this.map =  L.map('play-map', { dragging: false ,
                               scrollWheelZoom: false,
                               keyboard: false,
                               boxZoom: false,
@@ -90,13 +90,13 @@ class ActiveDash extends React.Component {
   }
 
   render() {
+    let routeName;
+    this.getActiveRoute() ? routeName = this.getActiveRoute().name : routeName = undefined
     return(
       <main>
-        <div id="map" style={style}></div>
+        <div id="play-map" style={style}></div>
         <h1>
-          {this.getActiveRoute() ?
-           this.getActiveRoute().name :
-           null}
+          {routeName}
         </h1>
         <div id="next-coords"></div>
         <button onClick={() => {

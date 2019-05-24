@@ -36,6 +36,13 @@ const rootReducer = (state = initialState, action) => {
         }
         return game
       })
+      console.log(`Previous state:`, state)
+      console.log(`Next state:`, state.currentUser.games.map(game => {
+        if (game.id === action.game.id) {
+          game = action.game
+        }
+        return game
+      }))
       return {...state,
               userGames: newGamesAfterCreate,
               currentUser: {...state.currentUser,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
+import reAuth from './actions/reAuth'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import UserProfile from './containers/UserProfile'
@@ -15,7 +16,7 @@ import './App.scss';
 class App extends React.Component {
 
   componentDidMount() {
-    console.log(this.props.currentUser)
+    this.props.reAuth()
   }
 
   render() {
@@ -60,4 +61,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    reAuth: () => dispatch(reAuth())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

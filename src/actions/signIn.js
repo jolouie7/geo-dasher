@@ -23,7 +23,6 @@ const signIn = (e, login_info, history) => {
       } else {
         dispatch({ type: "SET_CURRENT_USER", user: resObj.user })
         localStorage.setItem('jwt', resObj['jwt'])
-        history.push(`/users/${resObj.user.id}`)
         return resObj.user.id
       }
     })
