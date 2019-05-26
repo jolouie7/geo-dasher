@@ -1,6 +1,6 @@
 const fetchRoutes = () => {
   return (dispatch) => {
-    dispatch({ type: "START_ADDING_ROUTES" })
+    // dispatch({ type: "START_ADDING_ROUTES" })
     return fetch(`http://localhost:3005/api/v1/routes`, {
              method: "GET",
              headers: {

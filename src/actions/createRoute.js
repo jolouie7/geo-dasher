@@ -1,5 +1,3 @@
-import L from 'leaflet'
-
 const createRoute = (routeInfo, username, distance, history) => {
   return (dispatch) => {
     dispatch({ type: "START_CREATING_ROUTE"});

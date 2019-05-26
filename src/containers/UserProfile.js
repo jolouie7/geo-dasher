@@ -71,9 +71,9 @@ class UserProfile extends React.Component {
   }
 
   componentDidMount() {
-    let user_id = this.props.match.params.id
-    this.props.dispatch(fetchGames(user_id))
-    this.props.dispatch(fetchRoutes())
+    let userId = this.props.match.params.id
+    this.props.fetchGames(userId)
+    this.props.fetchRoutes()
   }
 
   render() {
@@ -112,7 +112,7 @@ class UserProfile extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     userGames: state.userGames,
     routes: state.routes,
@@ -120,4 +120,11 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(UserProfile)
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchGames: (userId) => dispatch(fetchGames(userId)),
+    fetchRoutes: () => dispatch(fetchRoutes())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)

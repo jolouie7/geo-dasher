@@ -4,18 +4,18 @@ import fetchRoutes from '../actions/fetchRoutes'
 import createGame from '../actions/createGame'
 import RouteInfo from '../components/RouteInfo'
 import ViewRouteMap from '../components/ViewRouteMap'
-import { Link } from 'react-router-dom'
 
 class ViewRoute extends React.Component {
 
   findRoute = () => {
     let routeId = parseInt(this.props.match.params.id)
+    console.log(`findRoute(): `, this.props.routes)
     return this.props.routes.find(route => route.id === routeId)
   }
 
   checkForActiveDash = () => {
+    console.log(this.props.currentUser)
     let activeDash = this.props.currentUser.games.find(game => game.active)
-    let userId = this.props.currentUser.id
     if (activeDash) {
       return true
     }
@@ -58,7 +58,10 @@ class ViewRoute extends React.Component {
   render() {
     return (
       <main>
-        <ViewRouteMap route={this.findRoute()} />
+        {this.props.loadedRoutes ?
+         <ViewRouteMap route={this.findRoute()} /> :
+         null}
+
         <br/><br/><br/>
         <button onClick={() => { this.beginDash() }}>Begin Dash!</button>
         <p id="error-msg" style={{color:"red"}}>
@@ -80,7 +83,8 @@ class ViewRoute extends React.Component {
 const mapStateToProps = state => {
   return {
     routes: state.routes,
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    loadedRoutes: state.loadedRoutes
   }
 }
 

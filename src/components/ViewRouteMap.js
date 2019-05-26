@@ -9,6 +9,7 @@ const style = {
 class ViewRouteMap extends React.Component {
 
   componentDidMount() {
+    console.log(`ViewRouteMap props: `, this.props)
     let x_coord = this.props.route.sites[0].x_coordinate
     let y_coord = this.props.route.sites[0].y_coordinate
 
@@ -19,8 +20,7 @@ class ViewRouteMap extends React.Component {
                               tap: false,
                               touchZoom: false,
                               doubleClickZoom: false,
-                              zoomControl: false,
-                              touchZoom: false  }).setView([x_coord, y_coord], 12);
+                              zoomControl: false }).setView([x_coord, y_coord], 12);
 
     L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
