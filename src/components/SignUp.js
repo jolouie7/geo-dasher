@@ -40,6 +40,7 @@ class SignUp extends React.Component {
       })
     })
     .then(res => res.json())
+    .catch((msg) =>  console.log(msg))
     .then(resObj => {
       if (resObj['error']) {
         const errorList = resObj['error'].split('-')

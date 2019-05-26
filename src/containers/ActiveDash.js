@@ -45,9 +45,7 @@ class ActiveDash extends React.Component {
       this.marker.remove()
       this.marker = undefined
 
-      this.marker = L.marker(this.nextCheckpointCoords, {
-          title: "Next Checkpoint"
-      }).addTo(this.map).bindPopup("Next Checkpoint!")
+      this.marker = L.marker(this.nextCheckpointCoords).addTo(this.map)
 
       this.nextCoordsText.innerHTML = `<p>LATITUDE: ${this.nextCheckpointCoords[0]}</p>
                                   <p>LONGITUDE: ${this.nextCheckpointCoords[1]}</p>`
@@ -81,9 +79,7 @@ class ActiveDash extends React.Component {
           accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
       }).addTo(this.map)
 
-      this.marker = L.marker(this.nextCheckpointCoords, {
-          title: "Next Checkpoint"
-      }).addTo(this.map).bindPopup("Next Checkpoint!");
+      this.marker = L.marker(this.nextCheckpointCoords).addTo(this.map);
 
       this.nextCoordsText.innerHTML = `<p>LATITUDE: ${this.nextCheckpointCoords[0]}</p>
                                   <p>LONGITUDE: ${this.nextCheckpointCoords[1]}</p>`

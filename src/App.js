@@ -22,13 +22,17 @@ class App extends React.Component {
     this.props.fetchRoutes()
   }
 
-  componentDidUpdate() {
-
-  }
-
   render() {
     return (
       <div className="App">
+
+        <h1 className="geodasher">
+          GeoDasher
+          
+            <img className="world" src="/images/world-icon.png"/>
+
+        </h1>
+        <br/><br/>
         <Router>
           <Switch>
             <Route exact path="/wrong-page" component={WrongUrl}/>
@@ -39,11 +43,13 @@ class App extends React.Component {
               <>
                 <Route exact path="/users/:id/active-dash" render={(props) => <ActiveDash {...props}/>}/>
                 <Route exact path="/users/:id" render={(props) => <UserProfile {...props}/>}/>
-                <Route exact path="/routes/new" render={(props) => <CreateRoute {...props}/>}/>
                 <Route exact path="/routes" render={(props) => <SelectRoute {...props}/>}/>
                 <Route exact path="/routes/:id" render={(props) => <ViewRoute {...props}/>}/>
+                <Route exact path="/routes/new" render={(props) => <CreateRoute {...props}/>}/>
               </> :
-              <p>Loading...</p>
+              <>
+                <div className="loader"></div>
+              </>
             }
             <Redirect to="/wrong-page"/>
           </Switch>

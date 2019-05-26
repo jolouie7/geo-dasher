@@ -72,7 +72,6 @@ class CreateRoute extends React.Component {
       } else if (this.state.description === "") {
         this.error.innerHTML = "You must add a description for the route!"
       }
-
     }
   }
 
@@ -146,8 +145,7 @@ class CreateRoute extends React.Component {
           <option value="Vehicle">Vehicle</option>
         </select>
         <h3>Checkpoints</h3>
-        <ol id="coordinates-list">
-        </ol>
+        <ol id="coordinates-list"></ol>
       </main>
     )
   }
