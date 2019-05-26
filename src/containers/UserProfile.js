@@ -24,7 +24,11 @@ class UserProfile extends React.Component {
       let activeRoute;
       if (activeDash) {
         activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
-        return <RouteCard key={activeDash.id} id={activeRoute ? activeRoute.id : null} route={activeRoute} game={activeDash}/>
+        return (<RouteCard key={activeDash.id}
+                          userId={this.props.currentUser}
+                          id={activeRoute ? activeRoute.id : null}
+                          route={activeRoute}
+                          game={activeDash}/>)
       } else {
         return null
       }
@@ -50,6 +54,7 @@ class UserProfile extends React.Component {
 
   renderPastDashes = () => {
     let pastDashes = this.props.userGames.filter(game => !game.active)
+    console.log(pastDashes)
     if (pastDashes === undefined || pastDashes.length === 0) {
 
       return( <p>

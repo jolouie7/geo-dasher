@@ -1,4 +1,8 @@
-const updateGame = (gameId, history, nextCP, game, sites, nextCoords, userId) => {
+import updateRoute from "./updateRoute"
+
+const updateGame = (gameId, history, nextCP, game, sites,
+  nextCoords, userId, route) => {
+
   let createdAt = new Date (new Date(game.created_at).toJSON())
   let updatedAt = Date.now()
   let timeDiff = (updatedAt - createdAt)
@@ -32,6 +36,7 @@ const updateGame = (gameId, history, nextCP, game, sites, nextCoords, userId) =>
              .then(res => res.json())
              .then(updatedGame => {
                  dispatch({ type: "UPDATE_GAME", game: updatedGame })
+                 // updateRoute(route)
              })
              .then(() => history.push(`/users/${userId}`))
     }

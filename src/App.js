@@ -25,12 +25,9 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-
         <h1 className="geodasher">
           GeoDasher
-          
             <img className="world" src="/images/world-icon.png"/>
-
         </h1>
         <br/><br/>
         <Router>

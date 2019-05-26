@@ -11,7 +11,6 @@ const reAuth = () => {
       })
       .then(res => res.json())
       .then(resObj => {
-        console.log(resObj)
         dispatch({ type: "SET_CURRENT_USER", user: resObj.user })
       })
     } else {

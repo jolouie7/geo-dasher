@@ -9,7 +9,6 @@ const style = {
 class ViewRouteMap extends React.Component {
 
   componentDidUpdate() {
-    console.log(`ViewRouteMap props: `, this.props)
     if (this.props.routes) {
       let x_coord = this.props.route.sites[0].x_coordinate
       let y_coord = this.props.route.sites[0].y_coordinate

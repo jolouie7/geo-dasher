@@ -9,21 +9,32 @@ const DashCard = props => {
     altTransport = props.route.alt_transportation
     routeId = props.route.id
   }
-  return (
-      <>
-        <Link to={`/routes/${routeId}`}>
-          <li>
-            <p>
-              Name: {routeName} - Distance: {routeDistance} - Transportation: Walking, {altTransport}
-            </p>
-          </li>
-        </Link>
-      </>
-  )
+
+  if (props.currentUser === undefined) {
+    return (
+        <>
+          <Link to={`/routes/${routeId}`}>
+            <li>
+              <p>
+                Name: {routeName} - Distance: {routeDistance} - Transportation: Walking, {altTransport}
+              </p>
+            </li>
+          </Link>
+        </>
+    )
+  } else {
+    return (
+        <>
+          <Link to={`/users/${props.currentUser.id}/active-dash`}>
+            <li>
+              <p>
+                Name: {routeName} - Distance: {routeDistance} - Transportation: Walking, {altTransport}
+              </p>
+            </li>
+          </Link>
+        </>
+    )
+  }
 }
 
 export default DashCard
-
-// <Link to="/dashes/new">
-// <Link to={`/dashes/${props.route.id}`}>
-// </Link>

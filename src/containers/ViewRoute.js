@@ -55,13 +55,18 @@ class ViewRoute extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    console.log(this.props.loadedRoutes)
+    // if (this.props.loadedRoutes) {}
+  }
+
   render() {
     return (
       <main>
-        {this.props.loadedRoutes ?
+        <div id="map-container"></div>
+        {this.props.loadedRoutes === true ?
          <ViewRouteMap route={this.findRoute()} /> :
          null}
-
         <br/><br/><br/>
         <button onClick={() => { this.beginDash() }}>Begin Dash!</button>
         <p id="error-msg" style={{color:"red"}}>
@@ -96,10 +101,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewRoute)
-
-// {this.checkForActiveDash() ? this.checkForActiveDash() : undefined}
-
-// {this.checkForActiveDash() ?
-//  <button onClick={() => {this.redirectToActiveDash()}}>Go To Active Dash</button> :
-//  undefined
-// }

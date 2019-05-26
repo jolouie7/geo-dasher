@@ -11,7 +11,7 @@ const RouteInfo = props => {
         return <li>{game.travel_time}</li>
       })
     } else {
-      return <p>This route currently has no completions. Be the first!</p>
+      return <h6>This route currently has no completions. Be the first!</h6>
     }
   }
 
@@ -28,7 +28,7 @@ const RouteInfo = props => {
         <p>{props.route.alt_transportation}</p>
         <p>Walking</p>
       <br/>
-      <p>Finished <i>{props.route.times_completed}</i> times</p>
+      <p>Finished {props.route.times_completed} times</p>
       <br/><br/>
       <h3>Leaderboard:</h3>
       <ol>
