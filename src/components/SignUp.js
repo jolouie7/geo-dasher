@@ -9,7 +9,7 @@ class SignUp extends React.Component {
       username: "",
       email: "",
       password: "",
-      confirm_password: ""
+      password_confirmation: ""
     }
   }
 
@@ -35,7 +35,8 @@ class SignUp extends React.Component {
         user: {
           username: signupInfo.username,
           email: signupInfo.email,
-          password: signupInfo.password
+          password: signupInfo.password,
+          password_confirmation: signupInfo.password_confirmation
         }
       })
     })
@@ -80,11 +81,11 @@ class SignUp extends React.Component {
             value={this.state.password}
             autoComplete="off"/>
           <br/><br/>
-          <label htmlFor="confirm_password">Confirm Password: </label>
+          <label htmlFor="password_confirmation">Confirm Password: </label>
           <input onChange={this.handleChange}
-            name="confirm_password"
+            name="password_confirmation"
             type="password"
-            value={this.state.confirm_password}
+            value={this.state.password_confirmation}
             autoComplete="off"/>
           <br/><br/>
           <input type="Submit" onChange={this.fakeChange} value="Sign Up"/>
@@ -96,7 +97,6 @@ class SignUp extends React.Component {
       </div>
     )
   }
-
 }
 
 export default SignUp

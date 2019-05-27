@@ -9,12 +9,10 @@ class ViewRoute extends React.Component {
 
   findRoute = () => {
     let routeId = parseInt(this.props.match.params.id)
-    console.log(`findRoute(): `, this.props.routes)
     return this.props.routes.find(route => route.id === routeId)
   }
 
   checkForActiveDash = () => {
-    console.log(this.props.currentUser)
     let activeDash = this.props.currentUser.games.find(game => game.active)
     if (activeDash) {
       return true
@@ -55,18 +53,11 @@ class ViewRoute extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    console.log(this.props.loadedRoutes)
-    // if (this.props.loadedRoutes) {}
-  }
-
   render() {
     return (
       <main>
         <div id="map-container"></div>
-        {this.props.loadedRoutes === true ?
-         <ViewRouteMap route={this.findRoute()} /> :
-         null}
+        {<ViewRouteMap route={this.findRoute()} />}
         <br/><br/><br/>
         <button onClick={() => { this.beginDash() }}>Begin Dash!</button>
         <p id="error-msg" style={{color:"red"}}>

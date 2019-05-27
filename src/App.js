@@ -29,7 +29,6 @@ class App extends React.Component {
           GeoDasher
             <img className="world" src="/images/world-icon.png"/>
         </h1>
-        <br/><br/>
         <Router>
           <Switch>
             <Route exact path="/wrong-page" component={WrongUrl}/>
@@ -38,15 +37,21 @@ class App extends React.Component {
             { Object.keys(this.props.currentUser).length !== 0 &&
                Object.keys(this.props.routes).length !== 0 ?
               <>
-                <Route exact path="/users/:id/active-dash" render={(props) => <ActiveDash {...props}/>}/>
-                <Route exact path="/users/:id" render={(props) => <UserProfile {...props}/>}/>
-                <Route exact path="/routes" render={(props) => <SelectRoute {...props}/>}/>
-                <Route exact path="/routes/:id" render={(props) => <ViewRoute {...props}/>}/>
-                <Route exact path="/routes/new" render={(props) => <CreateRoute {...props}/>}/>
+                <Switch>
+                  <Route exact path="/users/:id/active-dash" render={(props) => <ActiveDash {...props}/>}/>
+                  <Route exact path="/users/:id" render={(props) => <UserProfile {...props}/>}/>
+                  <Route exact path="/routes" render={(props) => <SelectRoute {...props}/>}/>
+                  <Route exact path="/routes/new" render={(props) => <CreateRoute {...props}/>}/>
+                  <Route exact path="/routes/:id" render={(props) => <ViewRoute {...props}/>}/>
+                </Switch>
               </> :
+
+              localStorage.getItem('jwt') ?
               <>
                 <div className="loader"></div>
-              </>
+              </> :
+              <Unauthorized/>
+
             }
             <Redirect to="/wrong-page"/>
           </Switch>

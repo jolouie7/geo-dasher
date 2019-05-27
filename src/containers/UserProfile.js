@@ -54,7 +54,6 @@ class UserProfile extends React.Component {
 
   renderPastDashes = () => {
     let pastDashes = this.props.userGames.filter(game => !game.active)
-    console.log(pastDashes)
     if (pastDashes === undefined || pastDashes.length === 0) {
 
       return( <p>

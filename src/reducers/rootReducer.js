@@ -64,6 +64,14 @@ const rootReducer = (state = initialState, action) => {
                              games: updatedGames
                            }
              }
+    case "UPDATE_ROUTE":
+      let newRoutes = state.routes.map(route => {
+        if (route.id === action.route.id) {
+          route = action.route
+        }
+        return route
+      })
+      return {...state, routes: newRoutes}
     case "SET_DISTANCE_FILTER":
       return {...state,
                distanceFilter: action.distance,
