@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import reAuth from './actions/reAuth'
 import fetchGames from './actions/fetchGames'
 import fetchRoutes from './actions/fetchRoutes'
+import fetchAllUsers from './actions/fetchAllUsers'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import UserProfile from './containers/UserProfile'
@@ -20,6 +21,7 @@ class App extends React.Component {
   componentDidMount() {
     this.props.reAuth()
     this.props.fetchRoutes()
+    this.props.fetchAllUsers()
   }
 
   render() {
@@ -71,7 +73,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     reAuth: () => dispatch(reAuth()),
-    fetchRoutes: () => dispatch(fetchRoutes())
+    fetchRoutes: () => dispatch(fetchRoutes()),
+    fetchAllUsers: () => dispatch(fetchAllUsers())
   }
 }
 

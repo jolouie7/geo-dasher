@@ -54,10 +54,14 @@ class ViewRoute extends React.Component {
   }
 
   render() {
+    let route;
+    this.findRoute() ? route = this.findRoute() : route = undefined
     return (
       <main>
         <div id="map-container"></div>
-        {<ViewRouteMap route={this.findRoute()} />}
+        { route !== undefined ?
+          <ViewRouteMap route={route} /> :
+          "" }
         <br/><br/><br/>
         <button onClick={() => { this.beginDash() }}>Begin Dash!</button>
         <p id="error-msg" style={{color:"red"}}>

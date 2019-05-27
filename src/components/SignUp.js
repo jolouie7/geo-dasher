@@ -1,5 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import signUp from '../actions/signUp'
 
 class SignUp extends React.Component {
 
@@ -23,43 +25,11 @@ class SignUp extends React.Component {
     })
   }
 
-  handleSubmit = (e, signupInfo) => {
-    e.preventDefault();
-    fetch('http://localhost:3005/api/v1/users', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        user: {
-          username: signupInfo.username,
-          email: signupInfo.email,
-          password: signupInfo.password,
-          password_confirmation: signupInfo.password_confirmation
-        }
-      })
-    })
-    .then(res => res.json())
-    .catch((msg) =>  console.log(msg))
-    .then(resObj => {
-      if (resObj['error']) {
-        const errorList = resObj['error'].split('-')
-        errorList.splice(-1, 1)
-        const errorsHTML = errorList.join("<br/><br/>")
-        document.querySelector('#error-list').innerHTML = errorsHTML
-      } else {
-        localStorage.setItem('jwt', resObj['jwt'])
-        this.props.history.push(`/users/${resObj['user']['id']}`)
-      }
-    })
-  }
-
   render() {
     return (
       <div>
         <p>Sign Up</p>
-        <form onSubmit={(e) => { this.handleSubmit(e, this.state) }}>
+        <form onSubmit={(e) => { this.props.signUp(e, this.state, this.props.history) }}>
           <label htmlFor="email">Email: </label>
           <input onChange={this.handleChange}
             name="email"
@@ -99,4 +69,10 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp
+const mapDispatchToProps = dispatch => {
+  return {
+    signUp: (e, signupInfo, history) => { dispatch(signUp(e, signupInfo, history)) }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(SignUp)

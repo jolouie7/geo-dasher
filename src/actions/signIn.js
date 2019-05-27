@@ -1,6 +1,5 @@
 const signIn = (e, login_info, history) => {
   e.preventDefault()
-  console.log(login_info)
   return (dispatch) => {
     dispatch({ type: "BEGIN_SIGN_IN" })
     return fetch('http://localhost:3005/api/v1/signin', {
@@ -17,6 +16,7 @@ const signIn = (e, login_info, history) => {
       })
     })
     .then(res => res.json())
+    .catch(() => null)
     .then(resObj => {
       if (resObj['message']) {
         document.querySelector('#error-list').innerHTML = resObj['message']
@@ -26,34 +26,8 @@ const signIn = (e, login_info, history) => {
         return resObj.user.id
       }
     })
-    .then((id) => history.push(`/users/${id}`) )
+    .then((id) => typeof id === "number" ? history.push(`/users/${id}`) : null )
   }
 }
 
 export default signIn
-
-// handleSubmit = (e, login_info) => {
-//   e.preventDefault();
-//   fetch('http://localhost:3005/api/v1/signin', {
-//     method: "POST",
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'Accept': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       user: {
-//         username: login_info.username,
-//         password: login_info.password
-//       }
-//     })
-//   })
-//   .then(res => res.json())
-//   .then(resObj => {
-//     if (resObj['message']) {
-//       document.querySelector('#error-list').innerHTML = resObj['message']
-//     } else {
-//       localStorage.setItem('jwt', resObj['jwt'])
-//       this.props.history.push(`/users/${resObj.user.id}`)
-//     }
-//   })
-// }

@@ -4,16 +4,19 @@ import { Link } from 'react-router-dom'
 import RouteCard from '../components/RouteCard'
 import fetchRoutes from '../actions/fetchRoutes'
 import fetchGames from '../actions/fetchGames'
+import reAuth from '../actions/reAuth'
 
 class UserProfile extends React.Component {
 
   signOut = () => {
     localStorage.removeItem('jwt')
+    this.props.clearCurrentUser()
     this.props.history.push('/signin')
   }
 
   renderActiveDash = () => {
-    let activeDash = this.props.userGames.find(game => game.active)
+    console.log(this.user)
+    let activeDash = this.user.games.find(game => game.active)
     if (activeDash === undefined) {
       return (<p> You are not currently dashing...
                 <br/>
@@ -25,7 +28,7 @@ class UserProfile extends React.Component {
       if (activeDash) {
         activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
         return (<RouteCard key={activeDash.id}
-                          userId={this.props.currentUser}
+                          userId={this.user}
                           id={activeRoute ? activeRoute.id : null}
                           route={activeRoute}
                           game={activeDash}/>)
@@ -36,7 +39,7 @@ class UserProfile extends React.Component {
   }
 
   renderCreatedDashes = () => {
-    let createdRoutes = this.props.routes.filter(route => route.creator === this.props.currentUser.username)
+    let createdRoutes = this.props.routes.filter(route => route.creator === this.user.username)
     if (createdRoutes === undefined) {
       return( <p>
                 You haven't created any routes yet...
@@ -49,13 +52,11 @@ class UserProfile extends React.Component {
         return <RouteCard key={route.id} route={route}/>
       })
     }
-
   }
 
   renderPastDashes = () => {
-    let pastDashes = this.props.userGames.filter(game => !game.active)
+    let pastDashes = this.user.games.filter(game => !game.active)
     if (pastDashes === undefined || pastDashes.length === 0) {
-
       return( <p>
                 You don't have any past dashes...
                 <br/>
@@ -74,40 +75,69 @@ class UserProfile extends React.Component {
     this.props.history.push("/routes/new")
   }
 
+  getUser = () => {
+    let thisUser = this.props.users.find(user => {
+      return user.id === parseInt(this.props.match.params.id)
+    })
+    return thisUser
+  }
+
   componentDidMount() {
-    let userId = this.props.match.params.id
-    this.props.fetchGames(userId)
+    this.props.reAuth()
     this.props.fetchRoutes()
+  }
+
+  componentDidUpdate() {
+    if (this.props.users.length > 0) {
+      this.user = this.getUser()
+    }
   }
 
   render() {
     let username;
-    Object.keys(this.props.currentUser).length !== 0 ? username = this.props.currentUser.username : username = ""
     return (
       <main>
         <button onClick={this.signOut} style={{align:"left"}}>Sign Out</button>
-        <h1 style={{align:"center"}}>{username}</h1>
-
-        <hr/><h3>Active Dash</h3><hr/>
-        <ul id="active-dash">
-          {this.renderActiveDash()}
-        </ul>
-        <br/>
+        {
+          this.user ?
+          <h1 style={{align:"center"}}>{this.user.username}</h1> :
+          undefined
+        }
 
 
+        {
+          this.props.currentUser.id === parseInt(this.props.match.params.id) &&
+          this.user ?
+          <>
+            <hr/><h3>Active Dash</h3><hr/>
+            <ul id="active-dash">
+              {this.renderActiveDash()}
+            </ul>
+            <br/>
+          </> :
+          undefined
+        }
 
         <hr/><h3>Past Dashes</h3><hr/>
         <ul id="past-dashes">
-          {this.renderPastDashes()}
+          { this.user ? this.renderPastDashes() : null}
         </ul>
         <br/>
 
         <hr/>
           <h3>Created Routes</h3>
         <hr/>
-        <button onClick={() => {this.redirectToCreateRoute()}}>Create Route</button>
+        {
+          this.props.currentUser.id === parseInt(this.props.match.params.id) &&
+          this.user ?
+          <button onClick={() => {this.redirectToCreateRoute()}}>
+            Create Route
+          </button> :
+          undefined
+        }
+
         <ul id="created-routes">
-          {this.renderCreatedDashes()}
+          { this.user ? this.renderCreatedDashes() : null}
         </ul>
         <br/>
 
@@ -120,14 +150,16 @@ const mapStateToProps = state => {
   return {
     userGames: state.userGames,
     routes: state.routes,
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    users: state.users
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchGames: (userId) => dispatch(fetchGames(userId)),
-    fetchRoutes: () => dispatch(fetchRoutes())
+    fetchRoutes: () => dispatch(fetchRoutes()),
+    reAuth: () => dispatch(reAuth()),
+    clearCurrentUser: () => dispatch({ type: "CLEAR_CURRENT_USER"})
   }
 }
 

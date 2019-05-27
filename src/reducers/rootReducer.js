@@ -5,7 +5,8 @@ const initialState = {
   filteredRoutes: [],
   distanceFilter: null,
   proximityFilter: null,
-  loadedRoutes: false
+  loadedRoutes: false,
+  users: []
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -24,13 +25,13 @@ const rootReducer = (state = initialState, action) => {
       return state
     case "SET_CURRENT_USER":
       return {...state, currentUser: action.user}
+    case "CLEAR_CURRENT_USER":
+      return {...state, currentUser: {} }
     case "ADD_ROUTES":
       return {...state,
               routes: action.routes,
               filteredRoutes: action.routes,
               loadedRoutes: true }
-    case "ADD_GAMES":
-      return {...state, userGames: action.games}
     case "CREATE_GAME":
       return {...state,
               userGames: [...state.userGames, action.game],
@@ -77,6 +78,8 @@ const rootReducer = (state = initialState, action) => {
                distanceFilter: action.distance,
                filteredRoutes: state.routes.filter(route => route.distance <= action.distance)
              }
+    case "SET_USERS":
+      return {...state, users: action.users}
     default:
        return state
   }
