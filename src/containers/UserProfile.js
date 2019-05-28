@@ -99,7 +99,6 @@ class UserProfile extends React.Component {
   }
 
   render() {
-    console.log(this.props.history)
     let username;
     return (
       <main>

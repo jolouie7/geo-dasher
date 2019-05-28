@@ -38,14 +38,10 @@ class ViewRoute extends React.Component {
     let userId = this.props.currentUser.id
     let routeId = parseInt(this.props.match.params.id)
     let activeDash = this.props.currentUser.games.find(game => game.active)
-    console.log(this.clientLatLng)
     if (this.clientLatLng) {
       if (activeDash === undefined && clientLatLng === undefined) {
-        console.log("Cheat start")
         this.props.createGame(routeId, userId, this.props.history)
-
       } else if (activeDash === undefined && clientLatLng) {
-        console.log("Smart start")
         let distanceInFt = this.map.distance(this.marker.getLatLng(), this.clientLatLng) * 3.28084
         if (distanceInFt < 150) {
           this.error.innerHTML = ''
@@ -78,15 +74,6 @@ class ViewRoute extends React.Component {
       let x_coord = this.route.sites[0].x_coordinate
       let y_coord = this.route.sites[0].y_coordinate
 
-      // this.map = L.map('view-map', { dragging: false ,
-      //                           scrollWheelZoom: false,
-      //                           keyboard: false,
-      //                           boxZoom: false,
-      //                           tap: false,
-      //                           touchZoom: false,
-      //                           doubleClickZoom: false,
-      //                           zoomControl: false }).setView([x_coord, y_coord], 12);
-
       this.map =  L.map('view-map').locate({
                                 watch: true,
                                 enableHighAccuracy: true,
@@ -108,7 +95,6 @@ class ViewRoute extends React.Component {
 
       this.onLocationFound = (e) => {
         this.clientLatLng = e.latlng
-        console.log("Location found!")
       }
 
       this.map.on('locationfound', this.onLocationFound)

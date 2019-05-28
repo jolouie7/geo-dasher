@@ -47,9 +47,7 @@ const RouteInfo = props => {
         return [userAndTime[0], `${d}:${h}:${m}:${s}`]
       })
       sortedTimes.splice(3, sortedTimes.length-3)
-      console.log(sortedTimes)
       return sortedTimes.map(userAndTime => {
-        console.log(userAndTime[0])
         if (userAndTime[0]) {
           return (<Link to={`/users/${userAndTime[0].id}`}>
                     <li>

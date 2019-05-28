@@ -35,10 +35,8 @@ class ActiveDash extends React.Component {
 
   smartCheckIn = () => {
     if ( this.clientLatLng ) {
-
       let distanceInFt = this.map.distance(this.marker.getLatLng(), this.clientLatLng) * 3.28084
       if (distanceInFt < 150) {
-        console.log("You may proceed..")
         this.props.updateGame(this.gameId,
                               this.props.history,
                               this.nextCheckpointIndex,
@@ -104,7 +102,6 @@ class ActiveDash extends React.Component {
       // var this.map = L.map('map').locate({watch: false, enableHighAccuracy: true, setView: true, maxZoom: 15})
       this.onLocationFound = (e) => {
         this.clientLatLng = e.latlng
-        console.log(this.clientLatLng)
       }
 
       this.map.on('locationfound', this.onLocationFound)
