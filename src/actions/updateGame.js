@@ -36,26 +36,25 @@ const updateGame = (gameId, history, nextCP, game, sites,
                  dispatch({ type: "UPDATE_GAME", game: updatedGame })
              })
              .then(() => {
-               return (dispatch) => {
-                 return fetch(`http://localhost:3005/api/v1/routes/${route.id}`, {
-                        method: "PATCH",
-                        headers: {
-                          "Content-Type": "application/json",
-                          "Accept": "application/json",
-                          "Authorization": `Bearer ${localStorage.getItem('jwt')}`
-                        },
-                        body: JSON.stringify({
-                          times_completed: (route.times_completed + 1)
-                        })
-                      })
-                      .then(res => res.json())
-                      .then(updatedRoute => {
-                        dispatch({type: "UPDATE_ROUTE",
-                                  route: updatedRoute })
-                      })
-               }
+                fetch(`http://localhost:3005/api/v1/routes/${route.id}`, {
+                  method: "PATCH",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('jwt')}`
+                  },
+                  body: JSON.stringify({
+                    times_completed: (route.times_completed + 1)
+                  })
+                })
+                .then(res => res.json())
+                .then(updatedRoute => {
+                  dispatch({type: "UPDATE_ROUTE",
+                            route: updatedRoute })
+                })
+                .then(() => history.push(`/users/${userId}`))
              })
-             .then(() => history.push(`/users/${userId}`))
+
     }
   } else {
     return (dispatch) => {

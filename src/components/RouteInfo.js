@@ -1,15 +1,19 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const RouteInfo = props => {
 
   function generateTopTimes() {
     let allGames = props.route.games.filter(game => game.completed)
-    let allTimes = allGames.map(game => game.travel_time)
+    let allTimes = allGames.map(game => {
+      let user = props.users.find(user => user.id === game.user_id)
+      return [user, game.travel_time]
+    })
     if (allTimes.length !== 0) {
-      let topTimesInMs = allTimes.map(time => {
-        time = time.split(":").map(time => parseInt(time))
+      let topTimesInMs = allTimes.map(userAndTime => {
+        userAndTime[1] = userAndTime[1].split(":").map(time => parseInt(time))
         let ms = 0
-        let timesInMs = time.map((int, index) => {
+        let timesInMs = userAndTime[1].map((int, index) => {
           switch (index) {
             case 0:
               ms += int * 86400000
@@ -27,28 +31,41 @@ const RouteInfo = props => {
               return undefined
           }
         })
-        return ms
+        return [userAndTime[0], ms]
       })
-      topTimesInMs = topTimesInMs.sort((a,b) => a - b)
-      let sortedTimes = topTimesInMs.map(time => {
-        let d = (Math.floor((time/1000/60/60/24/365 - Math.floor(time/1000/60/60/24/365)) * 365) ).toString()
-        let h = (Math.floor((time/1000/60/60/24 - Math.floor(time/1000/60/60/24)) * 24) ).toString()
-        let m = (Math.floor((time/1000/60/60 - Math.floor(time/1000/60/60)) * 60) ).toString()
-        let s = (Math.floor((time/1000/60 - Math.floor(time/1000/60)) * 60) ).toString()
+
+      topTimesInMs = topTimesInMs.sort((a,b) => a[1] - b[1])
+
+      let sortedTimes = topTimesInMs.map(userAndTime => {
+        let d = (Math.floor((userAndTime[1]/1000/60/60/24/365 - Math.floor(userAndTime[1]/1000/60/60/24/365)) * 365) ).toString()
+        let h = (Math.floor((userAndTime[1]/1000/60/60/24 - Math.floor(userAndTime[1]/1000/60/60/24)) * 24) ).toString()
+        let m = (Math.floor((userAndTime[1]/1000/60/60 - Math.floor(userAndTime[1]/1000/60/60)) * 60) ).toString()
+        let s = (Math.floor((userAndTime[1]/1000/60 - Math.floor(userAndTime[1]/1000/60)) * 60) ).toString()
         h.length === 1 ? h = `0${h}` : h = h
         m.length === 1 ? m = `0${m}` : m = m
         s.length === 1 ? s = `0${s}` : s = s
-        return `${d}:${h}:${m}:${s}`
+        return [userAndTime[0], `${d}:${h}:${m}:${s}`]
       })
       sortedTimes.splice(3, sortedTimes.length-3)
-      return sortedTimes.map(time => {
-        return <li>{time}</li>
+      console.log(sortedTimes)
+      return sortedTimes.map(userAndTime => {
+        console.log(userAndTime[0])
+        if (userAndTime[0]) {
+          return (<Link to={`/users/${userAndTime[0].id}`}>
+                    <li>
+                     {`${userAndTime[0].username} - ${userAndTime[1]}`}
+                    </li>
+                  </Link>)
+        }
+
       })
 
     } else {
       return <h6>This route currently has no completions. Be the first!</h6>
     }
   }
+
+  let timesCompleted = props.route.games.filter(game => game.completed).length
 
   return (
     <section>
@@ -63,7 +80,7 @@ const RouteInfo = props => {
         <p>{props.route.alt_transportation}</p>
         <p>Walking</p>
       <br/>
-      <p>Finished {props.route.times_completed} times</p>
+      <p>Finished {timesCompleted} times</p>
       <br/><br/>
       <h3>Leaderboard:</h3>
       <ol>

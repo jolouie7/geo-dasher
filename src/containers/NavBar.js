@@ -1,0 +1,73 @@
+import React from 'react'
+import { connect } from 'react-redux'
+import { Link, withRouter } from 'react-router-dom'
+
+class NavBar extends React.Component {
+
+  goToCreateRoute = () => {
+    this.props.history.push("/routes/new")
+  }
+
+  goToSelectRoute = () => {
+    this.props.history.push("/routes")
+  }
+
+  goToUserProfile = () => {
+    this.props.history.push(`/users/${this.props.currentUser.id}`)
+  }
+
+  signOut = () => {
+    localStorage.removeItem('jwt')
+    this.props.clearCurrentUser()
+    this.props.history.push('/signin')
+  }
+
+  render() {
+    console.log(`Nav Props:`, this.props)
+    return (
+      <nav id="nav">
+
+        <div id="create-route" onClick={this.goToCreateRoute}>
+        CreateRoute
+        </div>
+
+        <div id="select-route" onClick={this.goToSelectRoute}>
+        SelectRoute
+        </div>
+
+        <div id="profile" onClick={this.goToUserProfile}>
+        Profile
+        </div>
+
+        <div id="sign-out" onClick={this.signOut}>
+        SignOut
+        </div>
+
+      </nav>
+    )
+  }
+
+}
+
+const mapStateToProps = state => {
+  return {
+    currentUser: state.currentUser
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    clearCurrentUser: () => dispatch({ type: "CLEAR_CURRENT_USER" })
+  }
+}
+
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(NavBar)
+)
+
+// { this.props.currentUser ?
+//   <NavBar currentUser={this.props.currentUser}/> :
+//   ""}
+
+// program told me not to use a link inside of a router

@@ -7,13 +7,6 @@ import fetchGames from '../actions/fetchGames'
 import reAuth from '../actions/reAuth'
 
 class UserProfile extends React.Component {
-
-  signOut = () => {
-    localStorage.removeItem('jwt')
-    this.props.clearCurrentUser()
-    this.props.history.push('/signin')
-  }
-
   renderActiveDash = () => {
     let activeDash = this.user.games.find(game => game.active)
     if (activeDash === undefined) {
@@ -102,7 +95,6 @@ class UserProfile extends React.Component {
     let username;
     return (
       <main>
-        <button onClick={this.signOut} style={{align:"left"}}>Sign Out</button>
         {
           this.user ?
           <h1 style={{align:"center"}}>{this.user.username}</h1> :
@@ -164,7 +156,7 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchRoutes: () => dispatch(fetchRoutes()),
     reAuth: () => dispatch(reAuth()),
-    clearCurrentUser: () => dispatch({ type: "CLEAR_CURRENT_USER"})
+    clearCurrentUser: () => dispatch({ type: "CLEAR_CURRENT_USER" })
   }
 }
 

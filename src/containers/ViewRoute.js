@@ -20,11 +20,11 @@ class ViewRoute extends React.Component {
   }
 
   generateRouteInfo = () => {
-    if ( this.findRoute() === undefined ) {
+    if ( this.findRoute() === undefined && this.props.users) {
       return ""
     } else {
       let route = this.findRoute()
-      return <RouteInfo route={route} />
+      return <RouteInfo route={route} users={this.props.users}/>
     }
   }
 
@@ -84,7 +84,8 @@ const mapStateToProps = state => {
   return {
     routes: state.routes,
     currentUser: state.currentUser,
-    loadedRoutes: state.loadedRoutes
+    loadedRoutes: state.loadedRoutes,
+    users: state.users
   }
 }
 

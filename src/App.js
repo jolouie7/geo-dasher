@@ -14,6 +14,7 @@ import SelectRoute from './containers/SelectRoute'
 import ViewRoute from './containers/ViewRoute'
 import WrongUrl from './components/WrongUrl'
 import Unauthorized from './components/Unauthorized'
+import NavBar from './containers/NavBar'
 import './App.scss';
 
 class App extends React.Component {
@@ -57,6 +58,9 @@ class App extends React.Component {
             }
             <Redirect to="/wrong-page"/>
           </Switch>
+          { localStorage.getItem('jwt') ?
+            <NavBar currentUser={this.props.currentUser}/> :
+            ""}
         </Router>
       </div>
     );
