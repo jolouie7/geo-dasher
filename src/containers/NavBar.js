@@ -27,21 +27,15 @@ class NavBar extends React.Component {
     return (
       <nav id="nav">
 
-        <div id="create-route" onClick={this.goToCreateRoute}>
-        CreateRoute
-        </div>
+        <img src="/images/add.png" alt="add-route" onClick={this.goToCreateRoute}/>
 
-        <div id="select-route" onClick={this.goToSelectRoute}>
-        SelectRoute
-        </div>
 
-        <div id="profile" onClick={this.goToUserProfile}>
-        Profile
-        </div>
+        <img src="/images/list.png" alt="select-route" onClick={this.goToSelectRoute}/>
 
-        <div id="sign-out" onClick={this.signOut}>
-        SignOut
-        </div>
+
+        <img src="/images/user.png" alt="profile-page" onClick={this.goToUserProfile}/>
+
+        <img src="/images/logout.png" alt="logout" onClick={this.signOut}/>
 
       </nav>
     )

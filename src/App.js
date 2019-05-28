@@ -58,9 +58,7 @@ class App extends React.Component {
             }
             <Redirect to="/wrong-page"/>
           </Switch>
-          { localStorage.getItem('jwt') ?
-            <NavBar currentUser={this.props.currentUser}/> :
-            ""}
+
         </Router>
       </div>
     );
@@ -83,3 +81,9 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+// paste this on the bottom of </Router> to add the Nav
+// workout the styling of this component
+// { localStorage.getItem('jwt') ?
+//   <NavBar currentUser={this.props.currentUser}/> :
+//   ""}

@@ -9,7 +9,7 @@ const style = {
 class ViewRouteMap extends React.Component {
 
   componentDidMount() {
-    if (this.props.route) {
+    if (this.props.route.sites) {
       let x_coord = this.props.route.sites[0].x_coordinate
       let y_coord = this.props.route.sites[0].y_coordinate
 
@@ -28,6 +28,17 @@ class ViewRouteMap extends React.Component {
           id: 'streets-v9',
           accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
       }).addTo(this.map)
+
+      this.onLocationFound = (e) => {
+        this.clientLatLng = e.latlng
+        console.log(this.clientLatLng)
+      }
+
+      this.map.on('locationfound', this.onLocationFound)
+
+      this.map.on('locationerror', (e) => {
+        alert(e.message)
+      })
 
       L.marker([x_coord, y_coord], {
           title: "Start Here!"

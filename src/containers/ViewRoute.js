@@ -1,9 +1,15 @@
 import React from 'react'
+import L from 'leaflet'
 import { connect } from 'react-redux'
 import fetchRoutes from '../actions/fetchRoutes'
 import createGame from '../actions/createGame'
 import RouteInfo from '../components/RouteInfo'
 import ViewRouteMap from '../components/ViewRouteMap'
+
+const style = {
+  width: "100%",
+  height: "400px"
+};
 
 class ViewRoute extends React.Component {
 
@@ -28,13 +34,28 @@ class ViewRoute extends React.Component {
     }
   }
 
-  beginDash = () => {
+  beginDash = (clientLatLng) => {
     let userId = this.props.currentUser.id
     let routeId = parseInt(this.props.match.params.id)
     let activeDash = this.props.currentUser.games.find(game => game.active)
-    if (activeDash === undefined) {
-      this.props.createGame(routeId, userId, this.props.history)
+    console.log(this.clientLatLng)
+    if (this.clientLatLng) {
+      if (activeDash === undefined && clientLatLng === undefined) {
+        console.log("Cheat start")
+        this.props.createGame(routeId, userId, this.props.history)
+
+      } else if (activeDash === undefined && clientLatLng) {
+        console.log("Smart start")
+        let distanceInFt = this.map.distance(this.marker.getLatLng(), this.clientLatLng) * 3.28084
+        if (distanceInFt < 150) {
+          this.error.innerHTML = ''
+          this.props.createGame(routeId, userId, this.props.history)
+        } else {
+          this.error.innerHTML = `Not close enough! You are ${Math.floor(distanceInFt)} ft away.`
+        }
+      }
     }
+
   }
 
   redirectToActiveDash = () => {
@@ -43,6 +64,8 @@ class ViewRoute extends React.Component {
   }
 
   componentDidMount() {
+    this.error = document.querySelector('#error')
+    this.route = this.findRoute()
     this.errors = document.querySelector('#error-msg')
     this.props.fetchRoutes()
     if (this.checkForActiveDash()) {
@@ -51,6 +74,53 @@ class ViewRoute extends React.Component {
       this.errors.innerHTML = `You're already dashing!
       Finish or quit your past dash to start this this one.`
     }
+    if (this.route.sites) {
+      let x_coord = this.route.sites[0].x_coordinate
+      let y_coord = this.route.sites[0].y_coordinate
+
+      // this.map = L.map('view-map', { dragging: false ,
+      //                           scrollWheelZoom: false,
+      //                           keyboard: false,
+      //                           boxZoom: false,
+      //                           tap: false,
+      //                           touchZoom: false,
+      //                           doubleClickZoom: false,
+      //                           zoomControl: false }).setView([x_coord, y_coord], 12);
+
+      this.map =  L.map('view-map').locate({
+                                watch: true,
+                                enableHighAccuracy: true,
+                                dragging: false,
+                                scrollWheelZoom: false,
+                                keyboard: false,
+                                boxZoom: false,
+                                tap: false,
+                                touchZoom: false,
+                                doubleClickZoom: false,
+                                zoomControl: false}).setView([x_coord, y_coord], 12);
+
+      L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 18,
+          id: 'streets-v9',
+          accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+      }).addTo(this.map)
+
+      this.onLocationFound = (e) => {
+        this.clientLatLng = e.latlng
+        console.log("Location found!")
+      }
+
+      this.map.on('locationfound', this.onLocationFound)
+
+      this.map.on('locationerror', (e) => {
+        alert(e.message)
+      })
+
+      this.marker = L.marker([x_coord, y_coord], {
+          title: "Start Here!"
+      }).addTo(this.map).bindPopup("Start Here!");
+    }
   }
 
   render() {
@@ -58,20 +128,22 @@ class ViewRoute extends React.Component {
     this.findRoute() ? route = this.findRoute() : route = undefined
     return (
       <main>
-        <div id="map-container"></div>
         { route !== undefined ?
-          <ViewRouteMap route={route} /> :
+          <div id="view-map" style={style} /> :
           "" }
-        <br/><br/><br/>
-        <button onClick={() => { this.beginDash() }}>Begin Dash!</button>
+        <p id="error" style={{color: "red"}}></p>
+        <br/>
+        <button onClick={() => { this.beginDash() }}>Cheat Start</button>
+        <button onClick={() => { this.beginDash(this.clientLatLng) }}>Smart Start</button>
         <p id="error-msg" style={{color:"red"}}>
         </p>
         <button id="to-active-dash"
                 onClick={() => {this.redirectToActiveDash()}}
                 style={{display:'none'}}
               >
-          Go To Active Dash
+          Active Dash
         </button>
+
         <br/>
           {this.generateRouteInfo()}
       </main>
