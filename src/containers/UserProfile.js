@@ -33,7 +33,7 @@ class UserProfile extends React.Component {
 
   renderCreatedDashes = () => {
     let createdRoutes = this.props.routes.filter(route => route.creator === this.user.username)
-    if (createdRoutes === undefined) {
+    if (createdRoutes.length === 0) {
       return( <p>
                 You haven't created any routes yet...
                 <br/>
