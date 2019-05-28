@@ -6,17 +6,46 @@ const DashCard = props => {
   if (props.route) {
     routeName = props.route.name
     routeDistance = props.route.distance
-    altTransport = props.route.alt_transportation
+
+    props.route.alt_transportation ?
+    altTransport = `, ${props.route.alt_transportation}` :
+    altTransport = undefined
+
     routeId = props.route.id
   }
 
-  if (props.currentUser === undefined) {
+  if (props.type === "past") {
+    let time;
+    let date = new Date(props.dash.created_at).toString().split(" ");
+    date = date.slice(1,5)
+    date.splice(3, 0, "@")
+    date = date.join(" ")
+    props.dash.completed ? time = props.dash.travel_time : time = "Incomplete"
     return (
         <>
           <Link to={`/routes/${routeId}`}>
             <li>
               <p>
-                Name: {routeName} - Distance: {routeDistance} - Transportation: Walking, {altTransport}
+                Name: {routeName} -
+                Distance: {routeDistance} -
+                Transportation: Walking{altTransport} -
+                Time: {time} -
+                Started: {date}
+              </p>
+            </li>
+          </Link>
+        </>
+    )
+  } else if (props.type === "active") {
+    return (
+        <>
+          {console.log(props.user)}
+          <Link to={`/users/${props.user.id}/active-dash`}>
+            <li>
+              <p>
+                Name: {routeName} -
+                Distance: {routeDistance} -
+                Transportation: Walking{altTransport}
               </p>
             </li>
           </Link>
@@ -25,10 +54,12 @@ const DashCard = props => {
   } else {
     return (
         <>
-          <Link to={`/users/${props.currentUser.id}/active-dash`}>
+          <Link to={`/routes/${routeId}`}>
             <li>
               <p>
-                Name: {routeName} - Distance: {routeDistance} - Transportation: Walking, {altTransport}
+                Name: {routeName} -
+                Distance: {routeDistance} -
+                Transportation: Walking{altTransport}
               </p>
             </li>
           </Link>

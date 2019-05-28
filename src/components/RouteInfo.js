@@ -40,7 +40,6 @@ const RouteInfo = props => {
         s.length === 1 ? s = `0${s}` : s = s
         return `${d}:${h}:${m}:${s}`
       })
-      console.log(sortedTimes)
       sortedTimes.splice(3, sortedTimes.length-3)
       return sortedTimes.map(time => {
         return <li>{time}</li>

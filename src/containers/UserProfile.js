@@ -15,7 +15,6 @@ class UserProfile extends React.Component {
   }
 
   renderActiveDash = () => {
-    console.log(this.user)
     let activeDash = this.user.games.find(game => game.active)
     if (activeDash === undefined) {
       return (<p> You are not currently dashing...
@@ -28,10 +27,11 @@ class UserProfile extends React.Component {
       if (activeDash) {
         activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
         return (<RouteCard key={activeDash.id}
-                          userId={this.user}
+                          user={this.user}
                           id={activeRoute ? activeRoute.id : null}
                           route={activeRoute}
-                          game={activeDash}/>)
+                          game={activeDash}
+                          type={"active"}/>)
       } else {
         return null
       }
@@ -49,7 +49,9 @@ class UserProfile extends React.Component {
       )
     } else {
       return createdRoutes.map(route => {
-        return <RouteCard key={route.id} route={route}/>
+        return <RouteCard key={route.id}
+                          route={route}
+                          type={"created"}/>
       })
     }
   }
@@ -66,7 +68,10 @@ class UserProfile extends React.Component {
     } else {
       return pastDashes.map(dash => {
         let thisRoute = this.props.routes.find(route => route.id === dash.route_id)
-        return <RouteCard key={dash.id} route={thisRoute}/>
+        return <RouteCard key={dash.id}
+                          dash={dash}
+                          route={thisRoute}
+                          type={"past"}/>
       })
     }
   }

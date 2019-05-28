@@ -59,6 +59,8 @@ const rootReducer = (state = initialState, action) => {
         }
         return game
       })
+      console.log(action.game)
+      console.log(updatedGames)
       return {...state,
               userGames: updatedGames,
               currentUser: {...state.currentUser,
