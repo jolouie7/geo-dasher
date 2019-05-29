@@ -87,27 +87,33 @@ class ActiveDash extends React.Component {
       this.nextCheckpointIndex = (this.activeDash.current_checkpoint + 1)
       this.nextCheckpointCoords = [this.routeSites[this.nextCheckpointIndex].x_coordinate,
                                    this.routeSites[this.nextCheckpointIndex].y_coordinate]
-      this.map =  L.map('play-map').locate({
-                                watch: true,
-                                enableHighAccuracy: true,
-                                dragging: false,
-                                scrollWheelZoom: false,
-                                keyboard: false,
-                                boxZoom: false,
-                                tap: false,
-                                touchZoom: false,
-                                doubleClickZoom: false,
-                                zoomControl: false}).setView(this.nextCheckpointCoords, 12);
+      this.map =  L.map('play-map', {
+                    scrollWheelZoom: false,
+                    keyboard: false,
+                    boxZoom: false,
+                    tap: false,
+                    touchZoom: false,
+                    doubleClickZoom: false,
+                    zoomControl: false,
+                    dragging: false
+                  })
+                  .locate({
+                    watch: true,
+                    enableHighAccuracy: true,
+                    timeout: 20000
+                  })
+                  .setView(this.nextCheckpointCoords, 12);
 
       // var this.map = L.map('map').locate({watch: false, enableHighAccuracy: true, setView: true, maxZoom: 15})
       this.onLocationFound = (e) => {
         this.clientLatLng = e.latlng
+        console.log(e.latlng)
       }
 
       this.map.on('locationfound', this.onLocationFound)
 
       this.map.on('locationerror', (e) => {
-        alert(e.message)
+        console.log(e.message)
       })
 
       L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {

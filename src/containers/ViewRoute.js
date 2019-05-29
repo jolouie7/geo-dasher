@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import fetchRoutes from '../actions/fetchRoutes'
 import createGame from '../actions/createGame'
 import RouteInfo from '../components/RouteInfo'
-import ViewRouteMap from '../components/ViewRouteMap'
 
 const style = {
   width: "100%",
@@ -59,6 +58,58 @@ class ViewRoute extends React.Component {
     this.props.history.push(`/users/${userId}/active-dash`)
   }
 
+  setupMap = () => {
+
+    return () => {
+      if (this.mapRendered === false) {
+        let x_coord = this.route.sites[0].x_coordinate
+        let y_coord = this.route.sites[0].y_coordinate
+
+        this.map =  L.map('view-map', {
+                            dragging: false,
+                            scrollWheelZoom: false,
+                            keyboard: false,
+                            boxZoom: false,
+                            tap: false,
+                            touchZoom: false,
+                            doubleClickZoom: false,
+                            zoomControl: false
+                          })
+                          .locate({
+                            timeout: 20000,
+                            watch: true,
+                            enableHighAccuracy: true
+                          }).setView([x_coord, y_coord], 12);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: `Map data &copy; <a href="https://www.openstreetmap.org/">
+            OpenStreetMap</a> contributors,
+            <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>,
+            Imagery © <a href="https://www.mapbox.com/">Mapbox</a>`,
+            maxZoom: 18,
+            id: 'streets-v9',
+            accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+        }).addTo(this.map)
+
+        this.onLocationFound = (e) => {
+          this.clientLatLng = e.latlng
+          console.log(e.latlng)
+        }
+
+        this.map.on('locationfound', this.onLocationFound)
+
+        this.map.on('locationerror', (e) => {
+          console.log(e.message)
+        })
+
+        this.marker = L.marker([x_coord, y_coord], {
+            title: "Start Here!"
+        }).addTo(this.map).bindPopup("Start Here!");
+        this.mapRendered = true;
+      }
+    }
+  }
+
   componentDidMount() {
     this.error = document.querySelector('#error')
     this.route = this.findRoute()
@@ -70,42 +121,12 @@ class ViewRoute extends React.Component {
       this.errors.innerHTML = `You're already dashing!
       Finish or quit your past dash to start this this one.`
     }
-    if (this.route.sites) {
-      let x_coord = this.route.sites[0].x_coordinate
-      let y_coord = this.route.sites[0].y_coordinate
+    this.mapRendered = false;
+  }
 
-      this.map =  L.map('view-map').locate({
-                                watch: true,
-                                enableHighAccuracy: true,
-                                dragging: false,
-                                scrollWheelZoom: false,
-                                keyboard: false,
-                                boxZoom: false,
-                                tap: false,
-                                touchZoom: false,
-                                doubleClickZoom: false,
-                                zoomControl: false}).setView([x_coord, y_coord], 12);
-
-      L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-          attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-          maxZoom: 18,
-          id: 'streets-v9',
-          accessToken: process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-      }).addTo(this.map)
-
-      this.onLocationFound = (e) => {
-        this.clientLatLng = e.latlng
-      }
-
-      this.map.on('locationfound', this.onLocationFound)
-
-      this.map.on('locationerror', (e) => {
-        alert(e.message)
-      })
-
-      this.marker = L.marker([x_coord, y_coord], {
-          title: "Start Here!"
-      }).addTo(this.map).bindPopup("Start Here!");
+  componentDidUpdate() {
+    if (this.route.sites[0]) {
+      this.setupMap()()
     }
   }
 

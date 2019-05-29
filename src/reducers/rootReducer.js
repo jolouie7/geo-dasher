@@ -4,7 +4,6 @@ const initialState = {
   userGames: [],
   filteredRoutes: [],
   distanceFilter: null,
-  proximityFilter: null,
   loadedRoutes: false,
   users: []
 }
@@ -27,45 +26,79 @@ const rootReducer = (state = initialState, action) => {
       return {...state, currentUser: action.user}
     case "CLEAR_CURRENT_USER":
       return {...state, currentUser: {} }
+    case "ADD_ROUTE":
+      return {...state,
+               currentUser: {...state.currentUser, routes: [...state.currentUser.routes, action.route]},
+               routes: [...state.routes, action.route],
+               filteredRoutes: [...state.filteredRoutes, action.route]
+              }
     case "ADD_ROUTES":
       return {...state,
               routes: action.routes,
               filteredRoutes: action.routes,
               loadedRoutes: true }
     case "CREATE_GAME":
+      let thisUser = state.users.find(user => user.id === action.game.user_id)
+      let newUsersGames = state.users.map(user => {
+        if (user.id === thisUser.id) {
+          user = {...user, games: [...user.games, action.game]}
+          return user
+        } else {
+          return user
+        }
+      })
       return {...state,
               userGames: [...state.userGames, action.game],
               currentUser: {...state.currentUser,
                             games: [...state.currentUser.games, action.game]
-                           }
+                          },
+              users: newUsersGames
              }
     case "END_DASH":
+      let quittingUser = state.users.find(user => user.id === action.game.user_id)
       let newGamesAfterEnd = state.currentUser.games.map(game => {
         if (game.id === action.game.id) {
           game = {...game, active: false}
         }
         return game
       })
+      let allUsers = state.users.map(user => {
+        if (user.id === quittingUser.id) {
+          user = {...user, games: newGamesAfterEnd}
+          return user
+        } else {
+          return user
+        }
+      })
       return {...state,
               userGames: newGamesAfterEnd,
               currentUser: {...state.currentUser,
                             games: newGamesAfterEnd
-                           }
+                          },
+              users: allUsers
              }
     case "UPDATE_GAME":
+      let updatingUser = state.users.find(user => user.id === action.game.user_id)
       let updatedGames = state.currentUser.games.map(game => {
         if (game.active) {
           game = action.game
         }
         return game
       })
-      console.log(action.game)
-      console.log(updatedGames)
+      let listUsers = state.users.map(user => {
+        if (user.id === updatingUser.id) {
+          user = {...user, games: updatedGames}
+          return user
+        } else {
+          return user
+        }
+      })
       return {...state,
               userGames: updatedGames,
               currentUser: {...state.currentUser,
                              games: updatedGames
-                           }
+                           },
+              users: listUsers
              }
     case "UPDATE_ROUTE":
       let newRoutes = state.routes.map(route => {

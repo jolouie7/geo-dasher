@@ -15,25 +15,27 @@ class UserProfile extends React.Component {
   }
 
   renderActiveDash = () => {
-    let activeDash = this.user.games.find(game => game.active)
-    if (activeDash === undefined) {
-      return (<p> You are not currently dashing...
-                <br/>
-                Click <Link to="/routes">here</Link> to select a route!
-              </p>
-            )
-    } else {
-      let activeRoute;
-      if (activeDash) {
-        activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
-        return (<RouteCard key={activeDash.id}
-                          user={this.user}
-                          id={activeRoute ? activeRoute.id : null}
-                          route={activeRoute}
-                          game={activeDash}
-                          type={"active"}/>)
+    if (this.user.games) {
+      let activeDash = this.user.games.find(game => game.active)
+      if (activeDash === undefined) {
+        return (<p> You are not currently dashing...
+                  <br/>
+                  Click <Link to="/routes">here</Link> to select a route!
+                </p>
+              )
       } else {
-        return null
+        let activeRoute;
+        if (activeDash) {
+          activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
+          return (<RouteCard key={activeDash.id}
+                            user={this.user}
+                            id={activeRoute ? activeRoute.id : null}
+                            route={activeRoute}
+                            game={activeDash}
+                            type={"active"}/>)
+        } else {
+          return null
+        }
       }
     }
   }
@@ -57,22 +59,24 @@ class UserProfile extends React.Component {
   }
 
   renderPastDashes = () => {
-    let pastDashes = this.user.games.filter(game => !game.active)
-    if (pastDashes === undefined || pastDashes.length === 0) {
-      return( <p>
-                You don't have any past dashes...
-                <br/>
-                Click <Link to="/routes">here</Link> to select a route!
-              </p>
-      )
-    } else {
-      return pastDashes.map(dash => {
-        let thisRoute = this.props.routes.find(route => route.id === dash.route_id)
-        return <RouteCard key={dash.id}
-                          dash={dash}
-                          route={thisRoute}
-                          type={"past"}/>
-      })
+    if (this.user.games) {
+      let pastDashes = this.user.games.filter(game => !game.active)
+      if (pastDashes === undefined || pastDashes.length === 0) {
+        return( <p>
+                  You don't have any past dashes...
+                  <br/>
+                  Click <Link to="/routes">here</Link> to select a route!
+                </p>
+        )
+      } else {
+        return pastDashes.map(dash => {
+          let thisRoute = this.props.routes.find(route => route.id === dash.route_id)
+          return <RouteCard key={dash.id}
+                            dash={dash}
+                            route={thisRoute}
+                            type={"past"}/>
+        })
+      }
     }
   }
 
@@ -99,6 +103,7 @@ class UserProfile extends React.Component {
   }
 
   render() {
+    console.log(this.user ? this.user.games : undefined)
     let username;
     return (
       <main>

@@ -34,6 +34,7 @@ class App extends React.Component {
         </h1>
         <Router>
           <Switch>
+            <Route exact path="/" render={(props) => <SignIn {...props}/>}/>
             <Route exact path="/wrong-page" component={WrongUrl}/>
             <Route exact path="/signin" render={(props) => <SignIn {...props}/>}/>
             <Route exact path="/signup" render={(props) => <SignUp {...props}/>}/>
@@ -81,9 +82,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-// paste this on the bottom of </Router> to add the Nav
-// workout the styling of this component
-// { localStorage.getItem('jwt') ?
-//   <NavBar currentUser={this.props.currentUser}/> :
-//   ""}

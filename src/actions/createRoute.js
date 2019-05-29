@@ -23,8 +23,8 @@ const createRoute = (routeInfo, username, distance, history) => {
              let coordList = routeInfo.checkpoints.map(checkpoint => {
                return [checkpoint.lat, checkpoint.lng]
              })
-             coordList.forEach(coord => {
-               fetch(`http://localhost:3005/api/v1/sites`, {
+             let responses = Promise.all(coordList.map(coord => {
+               return fetch(`http://localhost:3005/api/v1/sites`, {
                  method: "POST",
                  headers: {
                    "Content-Type": 'application/json',
@@ -38,12 +38,23 @@ const createRoute = (routeInfo, username, distance, history) => {
                    }
                  })
                })
+               .then(res => res.json())
+             }))
+
+             responses.then(obj => {
+               obj.map(site => {
+                 route.sites.push(site)
+               })
              })
-             return route.id
+
+             return route
+           })
+           .then(route => {
+             dispatch({ type: "ADD_ROUTE", route: route })
+             return route
            })
            .catch(error => console.log(error))
-           .then(routeId => history.push(`/routes/${routeId}`))
-
+           .then(route => history.push(`/routes/${route.id}`))
   }
 }
 
