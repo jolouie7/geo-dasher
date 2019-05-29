@@ -1,43 +1,43 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import {
+  Navbar,
+  Nav,
+  NavLink } from 'reactstrap';
 
 class NavBar extends React.Component {
 
-  goToCreateRoute = () => {
-    this.props.history.push("/routes/new")
-  }
-
-  goToSelectRoute = () => {
-    this.props.history.push("/routes")
-  }
-
-  goToUserProfile = () => {
-    this.props.history.push(`/users/${this.props.currentUser.id}`)
-  }
-
-  signOut = () => {
-    localStorage.removeItem('jwt')
-    this.props.clearCurrentUser()
-    this.props.history.push('/signin')
-  }
-
   render() {
-    console.log(`Nav Props:`, this.props)
     return (
-      <nav id="nav">
+      <div>
+        <Navbar className="nav" color="light" light expand="md">
+          <Nav className="ml-auto" navbar>
 
-        <img src="/images/add.png" alt="add-route" onClick={this.goToCreateRoute}/>
+              <NavLink href={`/users/${this.props.currentUser.id}`}>
+                <i class="glyphicon glyphicon-user" list-style-type={"none"}></i>
+              </NavLink>
 
 
-        <img src="/images/list.png" alt="select-route" onClick={this.goToSelectRoute}/>
+              <NavLink href={'/routes'}>
+                <i class="glyphicon glyphicon-list-alt" list-style-type={"none"}></i>
+              </NavLink>
 
 
-        <img src="/images/user.png" alt="profile-page" onClick={this.goToUserProfile}/>
+              <NavLink href={"/routes/new"}>
+                <i class="glyphicon glyphicon-plus" list-style-type={"none"}></i>
+              </NavLink>
 
-        <img src="/images/logout.png" alt="logout" onClick={this.signOut}/>
 
-      </nav>
+              <NavLink>
+                <i class="glyphicon glyphicon-log-out"
+                   list-style-type={"none"}
+                   onClick={this.signOut}
+                ></i>
+              </NavLink>
+
+          </Nav>
+        </Navbar>
+      </div>
     )
   }
 
@@ -55,13 +55,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(NavBar)
-)
-
-// { this.props.currentUser ?
-//   <NavBar currentUser={this.props.currentUser}/> :
-//   ""}
-
-// program told me not to use a link inside of a router
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar)

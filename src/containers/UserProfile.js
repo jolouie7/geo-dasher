@@ -103,7 +103,6 @@ class UserProfile extends React.Component {
   }
 
   render() {
-    console.log(this.user ? this.user.games : undefined)
     let username;
     return (
       <main>

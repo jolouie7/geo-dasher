@@ -37,19 +37,21 @@ class ViewRoute extends React.Component {
     let userId = this.props.currentUser.id
     let routeId = parseInt(this.props.match.params.id)
     let activeDash = this.props.currentUser.games.find(game => game.active)
-    if (this.clientLatLng) {
+
       if (activeDash === undefined && clientLatLng === undefined) {
         this.props.createGame(routeId, userId, this.props.history)
       } else if (activeDash === undefined && clientLatLng) {
-        let distanceInFt = this.map.distance(this.marker.getLatLng(), this.clientLatLng) * 3.28084
-        if (distanceInFt < 150) {
-          this.error.innerHTML = ''
-          this.props.createGame(routeId, userId, this.props.history)
-        } else {
-          this.error.innerHTML = `Not close enough! You are ${Math.floor(distanceInFt)} ft away.`
+        if (this.clientLatLng) {
+          let distanceInFt = this.map.distance(this.marker.getLatLng(), this.clientLatLng) * 3.28084
+          if (distanceInFt < 150) {
+            this.error.innerHTML = ''
+            this.props.createGame(routeId, userId, this.props.history)
+          } else {
+            this.error.innerHTML = `Not close enough! You are ${Math.floor(distanceInFt)} ft away.`
+          }
         }
       }
-    }
+
 
   }
 

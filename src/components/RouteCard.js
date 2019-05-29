@@ -39,7 +39,6 @@ const DashCard = props => {
   } else if (props.type === "active") {
     return (
         <>
-          {console.log(props.user)}
           <Link to={`/users/${props.user.id}/active-dash`}>
             <li>
               <p>
