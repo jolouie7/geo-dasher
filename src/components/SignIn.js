@@ -24,7 +24,6 @@ class SignIn extends React.Component {
   render() {
     return (
       <div>
-        <p>Sign In</p>
         <form onSubmit={(e) => { this.props.signIn(e, this.state, this.props.history) }}>
           <label htmlFor="username">Username: </label>
           <input onChange={this.handleChange}

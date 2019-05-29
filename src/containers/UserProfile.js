@@ -8,12 +8,6 @@ import reAuth from '../actions/reAuth'
 
 class UserProfile extends React.Component {
 
-  signOut = () => {
-    localStorage.removeItem('jwt')
-    this.props.clearCurrentUser()
-    this.props.history.push('/signin')
-  }
-
   renderActiveDash = () => {
     if (this.user.games) {
       let activeDash = this.user.games.find(game => game.active)
@@ -106,7 +100,6 @@ class UserProfile extends React.Component {
     let username;
     return (
       <main>
-        <button onClick={this.signOut} style={{align:"left"}}>Sign Out</button>
         {
           this.user ?
           <h1 style={{align:"center"}}>{this.user.username}</h1> :
@@ -136,14 +129,6 @@ class UserProfile extends React.Component {
         <hr/>
           <h3>Created Routes</h3>
         <hr/>
-        {
-          this.props.currentUser.id === parseInt(this.props.match.params.id) &&
-          this.user ?
-          <button onClick={() => {this.redirectToCreateRoute()}}>
-            Create Route
-          </button> :
-          undefined
-        }
 
         <ul id="created-routes">
           { this.user ? this.renderCreatedDashes() : null}
