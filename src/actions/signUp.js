@@ -26,6 +26,7 @@ const signUp = (e, signupInfo, history) => {
         document.querySelector('#error-list').innerHTML = errorsHTML
       } else {
         dispatch({ type: "SET_CURRENT_USER", user: resObj.user })
+        dispatch({ type: "ADD_USER", user: resObj.user})
         localStorage.setItem('jwt', resObj['jwt'])
         return resObj.user.id
       }

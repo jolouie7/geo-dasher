@@ -113,6 +113,8 @@ const rootReducer = (state = initialState, action) => {
                distanceFilter: action.distance,
                filteredRoutes: state.routes.filter(route => route.distance <= action.distance)
              }
+    case "ADD_USER":
+      return {...state, users: [...state.users, action.user]}
     case "SET_USERS":
       return {...state, users: action.users}
     default:
