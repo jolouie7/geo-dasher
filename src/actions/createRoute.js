@@ -20,41 +20,47 @@ const createRoute = (routeInfo, username, distance, history) => {
            })
            .then(res => res.json())
            .then(route => {
-             let coordList = routeInfo.checkpoints.map(checkpoint => {
-               return [checkpoint.lat, checkpoint.lng]
-             })
-             let responses = Promise.all(coordList.map(coord => {
-               return fetch(`http://localhost:3005/api/v1/sites`, {
-                 method: "POST",
-                 headers: {
-                   "Content-Type": 'application/json',
-                   "Authorization": `Bearer ${localStorage.getItem('jwt')}`
-                 },
-                 body: JSON.stringify({
-                   site: {
-                     route_id: route.id,
-                     x_coordinate: coord[0],
-                     y_coordinate: coord[1]
-                   }
+             if (route['error'] === "Unprocessable Entity"){
+               document.querySelector("#create-error").innerHTML = "Route name already taken!"
+             } else {
+               let coordList = routeInfo.checkpoints.map(checkpoint => {
+                 return [checkpoint.lat, checkpoint.lng]
+               })
+               let responses = Promise.all(coordList.map(coord => {
+                 return fetch(`http://localhost:3005/api/v1/sites`, {
+                   method: "POST",
+                   headers: {
+                     "Content-Type": 'application/json',
+                     "Authorization": `Bearer ${localStorage.getItem('jwt')}`
+                   },
+                   body: JSON.stringify({
+                     site: {
+                       route_id: route.id,
+                       x_coordinate: coord[0],
+                       y_coordinate: coord[1]
+                     }
+                   })
                  })
-               })
-               .then(res => res.json())
-             }))
+                 .then(res => res.json())
+                 }))
 
-             responses.then(obj => {
-               obj.map(site => {
-                 route.sites.push(site)
-               })
-             })
+                 responses.then(obj => {
+                   obj.map(site => {
+                     route.sites.push(site)
+                   })
+                 })
 
-             return route
+                 return route
+             }
            })
+           .catch(() => undefined)
            .then(route => {
              dispatch({ type: "ADD_ROUTE", route: route })
              return route
            })
-           .catch(error => console.log(error))
+           .catch(() => undefined)
            .then(route => history.push(`/routes/${route.id}`))
+           .catch(() => undefined)
   }
 }
 

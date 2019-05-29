@@ -54,8 +54,7 @@ class App extends React.Component {
               <>
                 <div className="loader"></div>
               </> :
-              <Unauthorized/>
-
+              <Redirect to="/signin"/>
             }
             <Redirect to="/wrong-page"/>
           </Switch>
