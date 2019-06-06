@@ -1,6 +1,6 @@
 import React from 'react'
 import L from 'leaflet'
-import ActiveDashError from '../components/ActiveDashError'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import endDash from '../actions/endDash'
 import updateGame from '../actions/updateGame'
@@ -167,7 +167,7 @@ class ActiveDash extends React.Component {
         </main>
       )
     } else {
-      return <ActiveDashError/>
+      return <Redirect to='/routes'/>
     }
   }
 }

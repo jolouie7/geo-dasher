@@ -113,13 +113,14 @@ class CreateRoute extends React.Component {
     return (
       <main>
         <div id="create-map" style={style} />
-        <p id="create-error" style={{color:"red"}}></p>
         <button onClick={this.addCheckpoint}>Add Checkpoint</button>
         <button onClick={this.removeCheckpoint}>Remove Checkpoint</button>
         <br/>
         <button onClick={() => { this.buildNewRoute() }}
                 style={{width:"220px"}}>Create Route</button>
         <p id="error" style={{color:"red"}}></p>
+        <h3>Checkpoints</h3>
+        <ol id="coordinates-list"></ol>
         <h1>Create Route</h1>
         <label htmlFor="name">Name:</label><br/>
         <input name="name"
@@ -145,8 +146,6 @@ class CreateRoute extends React.Component {
           <option value="Bike">Bicycle</option>
           <option value="Vehicle">Vehicle</option>
         </select>
-        <h3>Checkpoints</h3>
-        <ol id="coordinates-list"></ol>
       </main>
     )
   }
