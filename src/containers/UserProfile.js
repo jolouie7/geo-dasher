@@ -5,6 +5,9 @@ import RouteCard from '../components/RouteCard'
 import fetchRoutes from '../actions/fetchRoutes'
 import fetchGames from '../actions/fetchGames'
 import reAuth from '../actions/reAuth'
+import { Badge } from 'reactstrap'
+
+
 
 class UserProfile extends React.Component {
 
@@ -21,12 +24,14 @@ class UserProfile extends React.Component {
         let activeRoute;
         if (activeDash) {
           activeRoute = this.props.routes.find(route => route.id === activeDash.route_id)
-          return (<RouteCard key={activeDash.id}
-                            user={this.user}
-                            id={activeRoute ? activeRoute.id : null}
-                            route={activeRoute}
-                            game={activeDash}
-                            type={"active"}/>)
+          return (<Badge className="route-card">
+                    <RouteCard key={activeDash.id}
+                               user={this.user}
+                               id={activeRoute ? activeRoute.id : null}
+                               route={activeRoute}
+                               game={activeDash}
+                               type="active"/>
+                  </Badge>)
         } else {
           return null
         }
@@ -45,9 +50,11 @@ class UserProfile extends React.Component {
       )
     } else {
       return createdRoutes.map(route => {
-        return <RouteCard key={route.id}
-                          route={route}
-                          type={"created"}/>
+        return (<Badge className="route-card">
+                  <RouteCard key={route.id}
+                             route={route}
+                             type="created"/>
+                </Badge>)
       })
     }
   }
@@ -65,10 +72,13 @@ class UserProfile extends React.Component {
       } else {
         return pastDashes.map(dash => {
           let thisRoute = this.props.routes.find(route => route.id === dash.route_id)
-          return <RouteCard key={dash.id}
-                            dash={dash}
-                            route={thisRoute}
-                            type={"past"}/>
+          return (<Badge className="route-card">
+                    <RouteCard key={dash.id}
+                               dash={dash}
+                               route={thisRoute}
+                               type="past"/>
+                  </Badge>
+                )
         })
       }
     }
@@ -115,7 +125,6 @@ class UserProfile extends React.Component {
             <ul id="active-dash">
               {this.renderActiveDash()}
             </ul>
-            <br/>
           </> :
           undefined
         }
@@ -124,7 +133,6 @@ class UserProfile extends React.Component {
         <ul id="past-dashes">
           { this.user ? this.renderPastDashes() : null}
         </ul>
-        <br/>
 
         <hr/>
           <h3>Created Routes</h3>

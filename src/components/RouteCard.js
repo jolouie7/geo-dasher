@@ -24,14 +24,12 @@ const DashCard = props => {
     return (
         <>
           <Link to={`/routes/${routeId}`}>
-            <li>
-              <p>
-                Name: {routeName} -
-                Distance: {routeDistance} -
-                Transportation: Walking{altTransport} -
-                Time: {time} -
-                Started: {date}
-              </p>
+            <li type="past">
+              <p> Name: {routeName} </p>
+              <p> Distance: {routeDistance} </p>
+              <p> Transportation: Walking{altTransport} </p>
+              <p> Time: {time} </p>
+              <p> Started: {date} </p>
             </li>
           </Link>
         </>
@@ -40,12 +38,10 @@ const DashCard = props => {
     return (
         <>
           <Link to={`/users/${props.user.id}/active-dash`}>
-            <li>
-              <p>
-                Name: {routeName} -
-                Distance: {routeDistance} -
-                Transportation: Walking{altTransport}
-              </p>
+            <li type="active">
+              <p> Name: {routeName} </p>
+              <p> Distance: {routeDistance} </p>
+              <p> Transportation: Walking{altTransport} </p>
             </li>
           </Link>
         </>
@@ -54,12 +50,10 @@ const DashCard = props => {
     return (
         <>
           <Link to={`/routes/${routeId}`}>
-            <li>
-              <p>
-                Name: {routeName} -
-                Distance: {routeDistance} -
-                Transportation: Walking{altTransport}
-              </p>
+            <li type="other">
+              <p> Name: {routeName} </p>
+              <p> Distance: {routeDistance} </p>
+              <p> Transportation: Walking{altTransport} </p>
             </li>
           </Link>
         </>

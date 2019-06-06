@@ -87,3 +87,34 @@
   text-decoration: none;
   font-size: 7vmin;
  }
+
+ .route-card {
+   height:10vw;
+   width:50vw;
+   background-color: #7dabf0;
+   margin-bottom: 3vw;
+ }
+
+ li p {
+   font-size: 1vw;
+ }
+
+ li[type=past] {
+   padding-top: 1.2vw;
+   list-style-type: none;
+ }
+
+ li[type=active] {
+   padding-top: 2.6vw;
+   list-style-type: none;
+ }
+
+ li[type=other] {
+   padding-top: 2.6vw;
+   list-style-type: none;
+ }
+
+a:hover {
+  color: none;
+  text-decoration: none;
+}
