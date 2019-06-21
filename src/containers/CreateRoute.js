@@ -113,11 +113,17 @@ class CreateRoute extends React.Component {
     return (
       <main>
         <div id="create-map" style={style} />
-        <button onClick={this.addCheckpoint}>Add Checkpoint</button>
-        <button onClick={this.removeCheckpoint}>Remove Checkpoint</button>
+        <button onClick={this.addCheckpoint} class="btn btn-primary">
+          Add Checkpoint
+        </button>
+
+        <button onClick={this.removeCheckpoint} class="btn btn-danger">
+          Remove Checkpoint
+        </button>
         <br/>
         <button onClick={() => { this.buildNewRoute() }}
-                style={{width:"220px"}}>Create Route</button>
+                style={{width:"220px"}}
+                class="btn btn-success">Create Route</button>
         <p id="error" style={{color:"red"}}></p>
         <h3>Checkpoints</h3>
         <ol id="coordinates-list"></ol>

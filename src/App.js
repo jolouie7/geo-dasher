@@ -58,7 +58,6 @@ class App extends React.Component {
             }
             <Redirect to="/wrong-page"/>
           </Switch>
-
           <NavBar/>
         </Router>
       </div>
