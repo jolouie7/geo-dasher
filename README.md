@@ -11,6 +11,7 @@ is that it could potentially get people who are very sedentary and on their
 computer/phone active and out in the real world competing with others or just
 dashing for fun.
 
+![GeoDasher Gif](geodasher.gif)
 
 ## Installation
 > This README applies to both the frontend and backend for this application.
