@@ -107,14 +107,11 @@ class ActiveDash extends React.Component {
       // var this.map = L.map('map').locate({watch: false, enableHighAccuracy: true, setView: true, maxZoom: 15})
       this.onLocationFound = (e) => {
         this.clientLatLng = e.latlng
-        console.log(e.latlng)
       }
 
       this.map.on('locationfound', this.onLocationFound)
 
-      this.map.on('locationerror', (e) => {
-        console.log(e.message)
-      })
+      this.map.on('locationerror', (e) => {})
 
       L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',

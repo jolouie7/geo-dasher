@@ -17,7 +17,7 @@ const signUp = (e, signupInfo, history) => {
       })
     })
     .then(res => res.json())
-    .catch((msg) =>  console.log(msg))
+    .catch((msg) => {})
     .then(resObj => {
       if (resObj['error']) {
         const errorList = resObj['error'].split('-')

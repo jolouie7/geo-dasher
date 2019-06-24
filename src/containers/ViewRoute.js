@@ -95,14 +95,11 @@ class ViewRoute extends React.Component {
 
         this.onLocationFound = (e) => {
           this.clientLatLng = e.latlng
-          console.log(e.latlng)
         }
 
         this.map.on('locationfound', this.onLocationFound)
 
-        this.map.on('locationerror', (e) => {
-          console.log(e.message)
-        })
+        this.map.on('locationerror', (e) => {})
 
         this.marker = L.marker([x_coord, y_coord], {
             title: "Start Here!"
