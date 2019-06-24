@@ -9,7 +9,7 @@
   publish = "./build/"
 
   # Default build command.
-  command = "echo ./build && npm build"
+  command = "npm run build && echo ./build"
 
 [[redirects]]
   from = "/*"
