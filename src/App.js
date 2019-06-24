@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import reAuth from './actions/reAuth'
-import fetchGames from './actions/fetchGames'
 import fetchRoutes from './actions/fetchRoutes'
 import fetchAllUsers from './actions/fetchAllUsers'
 import SignIn from './components/SignIn'
@@ -13,7 +12,6 @@ import ActiveDash from './containers/ActiveDash'
 import SelectRoute from './containers/SelectRoute'
 import ViewRoute from './containers/ViewRoute'
 import WrongUrl from './components/WrongUrl'
-import Unauthorized from './components/Unauthorized'
 import NavBar from './containers/NavBar'
 import './App.scss';
 
@@ -30,7 +28,7 @@ class App extends React.Component {
       <div className="App">
         <h1 className="geodasher">
           GeoDasher
-            <img className="world" src="/images/world-icon.png"/>
+            <img alt="Green world" className="world" src="/images/world-icon.png"/>
         </h1>
         <Router>
           <Switch>

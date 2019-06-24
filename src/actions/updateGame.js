@@ -8,9 +8,9 @@ const updateGame = (gameId, history, nextCP, game, sites,
   let h = ( Math.floor((timeDiff/1000/60/60/24 - Math.floor(timeDiff/1000/60/60/24)) * 24) ).toString()
   let m = ( Math.floor((timeDiff/1000/60/60 - Math.floor(timeDiff/1000/60/60)) * 60) ).toString()
   let s = ( Math.floor((timeDiff/1000/60 - Math.floor(timeDiff/1000/60)) * 60) ).toString()
-  h.length === 1 ? h = `0${h}` : h = h
-  m.length === 1 ? m = `0${m}` : m = m
-  s.length === 1 ? s = `0${s}` : s = s
+  h = h.length === 1 ? `0${h}` : h
+  m = m.length === 1 ? `0${m}` : m
+  s = s.length === 1 ? `0${s}` : s
   let travelTime = `${d}:${h}:${m}:${s}`
   let lastCoords = [sites[sites.length-1].x_coordinate, sites[sites.length-1].y_coordinate]
 

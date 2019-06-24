@@ -45,9 +45,7 @@ const createRoute = (routeInfo, username, distance, history) => {
                  }))
 
                  responses.then(obj => {
-                   obj.map(site => {
-                     route.sites.push(site)
-                   })
+                   obj.map(site => route.sites.push(site))
                  })
 
                  return route

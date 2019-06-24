@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import RouteCard from '../components/RouteCard'
 import fetchRoutes from '../actions/fetchRoutes'
-import fetchGames from '../actions/fetchGames'
 import reAuth from '../actions/reAuth'
 import { Badge } from 'reactstrap'
 
@@ -107,7 +106,6 @@ class UserProfile extends React.Component {
   }
 
   render() {
-    let username;
     return (
       <main>
         {

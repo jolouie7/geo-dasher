@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import {
   Navbar,
   Nav,
@@ -19,16 +19,16 @@ class NavBar extends React.Component {
         <Navbar className="nav" color="light" light expand="md">
           <Nav className="ml-auto" navbar>
             <NavLink href={`/users/${this.props.currentUser.id}`}>
-              <i class="glyphicon glyphicon-user" list-style-type={"none"}></i>
+              <i className="glyphicon glyphicon-user" list-style-type={"none"}></i>
             </NavLink>
             <NavLink href={'/routes'}>
-              <i class="glyphicon glyphicon-list-alt" list-style-type={"none"}></i>
+              <i className="glyphicon glyphicon-list-alt" list-style-type={"none"}></i>
             </NavLink>
             <NavLink href={"/routes/new"}>
-              <i class="glyphicon glyphicon-plus" list-style-type={"none"}></i>
+              <i className="glyphicon glyphicon-plus" list-style-type={"none"}></i>
             </NavLink>
             <NavLink href={"/signin"}>
-              <i class="glyphicon glyphicon-log-out"
+              <i className="glyphicon glyphicon-log-out"
                  list-style-type={"none"}
                  onClick={this.signOut}
               ></i>

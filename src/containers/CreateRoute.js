@@ -166,7 +166,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     createRoute: (routeInfo, username, distance, history) => {
-      { dispatch(createRoute(routeInfo, username, distance, history)) }
+      dispatch(createRoute(routeInfo, username, distance, history))
     }
   }
 }

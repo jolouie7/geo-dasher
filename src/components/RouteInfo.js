@@ -13,7 +13,7 @@ const RouteInfo = props => {
       let topTimesInMs = allTimes.map(userAndTime => {
         userAndTime[1] = userAndTime[1].split(":").map(time => parseInt(time))
         let ms = 0
-        let timesInMs = userAndTime[1].map((int, index) => {
+        userAndTime[1].forEach((int, index) => {
           switch (index) {
             case 0:
               ms += int * 86400000
@@ -41,9 +41,9 @@ const RouteInfo = props => {
         let h = (Math.floor((userAndTime[1]/1000/60/60/24 - Math.floor(userAndTime[1]/1000/60/60/24)) * 24) ).toString()
         let m = (Math.floor((userAndTime[1]/1000/60/60 - Math.floor(userAndTime[1]/1000/60/60)) * 60) ).toString()
         let s = (Math.floor((userAndTime[1]/1000/60 - Math.floor(userAndTime[1]/1000/60)) * 60) ).toString()
-        h.length === 1 ? h = `0${h}` : h = h
-        m.length === 1 ? m = `0${m}` : m = m
-        s.length === 1 ? s = `0${s}` : s = s
+        h = h.length === 1 ? `0${h}` : h
+        m = m.length === 1 ? `0${m}` : m
+        s = s.length === 1 ? `0${s}` : s
         return [userAndTime[0], `${d}:${h}:${m}:${s}`]
       })
       sortedTimes.splice(3, sortedTimes.length-3)
@@ -55,7 +55,7 @@ const RouteInfo = props => {
                     </li>
                   </Link>)
         }
-
+        return null
       })
 
     } else {
