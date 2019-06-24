@@ -1,7 +1,9 @@
 const reAuth = () => {
   return (dispatch) => {
     if (localStorage.getItem('jwt')) {
-      return fetch(process.env.API_URL + '/api/v1/reAuth', {
+      console.log(process.env);
+      debugger
+      return fetch(process.env.REACT_APP_API_URL + '/api/v1/reAuth', {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',

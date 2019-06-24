@@ -2,7 +2,7 @@ const signIn = (e, login_info, history) => {
   e.preventDefault()
   return (dispatch) => {
     dispatch({ type: "BEGIN_SIGN_IN" })
-    return fetch(process.env.API_URL + '/api/v1/signin', {
+    return fetch(process.env.REACT_APP_API_URL + '/api/v1/signin', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',

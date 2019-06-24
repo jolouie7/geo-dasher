@@ -17,7 +17,7 @@ const updateGame = (gameId, history, nextCP, game, sites,
   if (nextCoords[0] === lastCoords[0] && nextCoords[1] === lastCoords[1]) {
     return (dispatch) => {
       dispatch({ type: "BEGIN_UPDATING_GAME" })
-      return fetch(process.env.API_URL + `/api/v1/games/${gameId}`, {
+      return fetch(process.env.REACT_APP_API_URL + `/api/v1/games/${gameId}`, {
                method: "PATCH",
                headers: {
                  "Content-Type": 'application/json',
@@ -36,7 +36,7 @@ const updateGame = (gameId, history, nextCP, game, sites,
                  dispatch({ type: "UPDATE_GAME", game: updatedGame })
              })
              .then(() => {
-                fetch(process.env.API_URL + `/api/v1/routes/${route.id}`, {
+                fetch(process.env.REACT_APP_API_URL + `/api/v1/routes/${route.id}`, {
                   method: "PATCH",
                   headers: {
                     "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const updateGame = (gameId, history, nextCP, game, sites,
   } else {
     return (dispatch) => {
       dispatch({ type: "BEGIN_UPDATING_GAME" })
-      return fetch(process.env.API_URL + `/api/v1/games/${gameId}`, {
+      return fetch(process.env.REACT_APP_API_URL + `/api/v1/games/${gameId}`, {
                method: "PATCH",
                headers: {
                  "Content-Type": 'application/json',
