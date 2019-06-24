@@ -1,7 +1,7 @@
 const createRoute = (routeInfo, username, distance, history) => {
   return (dispatch) => {
     dispatch({ type: "START_CREATING_ROUTE"});
-    return fetch(`http://localhost:3005/api/v1/routes`, {
+    return fetch(process.env.API_URL + `/api/v1/routes`, {
              method: "POST",
              headers: {
                "Content-Type": 'application/json',
@@ -27,7 +27,7 @@ const createRoute = (routeInfo, username, distance, history) => {
                  return [checkpoint.lat, checkpoint.lng]
                })
                let responses = Promise.all(coordList.map(coord => {
-                 return fetch(`http://localhost:3005/api/v1/sites`, {
+                 return fetch(process.env.API_URL + `/api/v1/sites`, {
                    method: "POST",
                    headers: {
                      "Content-Type": 'application/json',
@@ -74,7 +74,7 @@ export default createRoute
 // const createGame = (routeId, userId, history) => {
 //   return (dispatch) => {
 //     dispatch({ type: "START_CREATING_GAME" });
-//     return fetch(`http://localhost:3005/api/v1/games`, {
+//     return fetch(process.env.API_URL + `/api/v1/games`, {
 //       method: "POST",
 //       headers: {
 //         "Content-Type": 'application/json',

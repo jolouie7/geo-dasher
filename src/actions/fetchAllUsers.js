@@ -1,6 +1,6 @@
 const fetchAllUsers = () => {
   return (dispatch) => {
-    return fetch('http://localhost:3005/api/v1/users', {
+    return fetch(process.env.API_URL + '/api/v1/users', {
              method: "GET",
              headers: {
                "Authorization": `Bearer ${localStorage.getItem('jwt')}`,

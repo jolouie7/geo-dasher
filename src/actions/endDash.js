@@ -1,7 +1,7 @@
 const endDash = (gameId, history, userId) => {
   return (dispatch) => {
     dispatch({ type: "START_ENDING_DASH" });
-    return fetch(`http://localhost:3005/api/v1/games/${gameId}`, {
+    return fetch(process.env.API_URL + `/api/v1/games/${gameId}`, {
              method: "PATCH",
              headers: {
                "Content-Type": 'application/json',

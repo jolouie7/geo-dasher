@@ -1,7 +1,7 @@
 const fetchUser = (userId) => {
   return (dispatch) => {
     dispatch({ type: "START_SETTING_CURRENT_USER" });
-    return fetch(`http://localhost:3005/api/v1/users/${userId}`, {
+    return fetch(process.env.API_URL + `/api/v1/users/${userId}`, {
              method: "GET",
              headers: {
                "Content-Type": "application/json",

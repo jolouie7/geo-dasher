@@ -1,7 +1,7 @@
 const reAuth = () => {
   return (dispatch) => {
     if (localStorage.getItem('jwt')) {
-      return fetch('http://localhost:3005/api/v1/reAuth', {
+      return fetch(process.env.API_URL + '/api/v1/reAuth', {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',
