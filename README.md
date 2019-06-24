@@ -1,79 +1,111 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# GeoDasher
+> A location-based game that allows you to map out routes and compete
+head-to-head with other players for the fastest times.
 
-## Available Scripts
+GeoDasher is a game that was thought up with geocaching as a main inspiration.
+In the game any user can create a route that other user's can race, to try and
+compete for the fastest time. While in a bit of an intermission phase at the
+moment, in the end I'd like to convert the application to a native application
+using React Native. One of the biggest benefits of this game I see for the world
+is that it could potentially get people who are very sedentary and on their
+computer/phone active and out in the real world competing with others or just
+dashing for fun.
 
-In the project directory, you can run:
 
-### `npm start`
+## Installation
+> This README applies to both the frontend and backend for this application.
+In order to develop or view it on your computer you will need both parts.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+PART 1: BACKEND
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+OS X & Linux:
 
-### `npm test`
+1) First, make a new directory to hold both the backend and the frontend of this
+project.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2) Now, navigate to this page (https://github.com/campbelllssoup/geo-dasher-api)
+copy the SSH link, and run the following command in the project folder:
 
-### `npm run build`
+```sh
+git clone <SSH key>
+```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3) Next, go into the project directory (geo-dasher-api) & run the following command
+(if using Homebrew):
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```sh
+bundle
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+** If you're not using Homebrew, I would highly suggest installing it. Here is a
+great article that guides you step-by-step on how to install Homebrew on your
+computer. (http://osxdaily.com/2018/03/07/how-install-homebrew-mac-os/) **
 
-### `npm run eject`
+4) After you've done that, you need to migrate the database and seed the database.
+To do this, first make sure that you have installed postgres and start the program
+on your computer. (If you don't have postgres installed on your computer here's
+a link on how to do so: http://www.postgresqltutorial.com/install-postgresql/)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5) After you have Postgres running, run the following commands while inside of
+the project's head directory.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```sh
+rails db:create
+rails db:migrate
+rails db:seed
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+6) Now that you've installed all the necessary dependencies and have the database
+up and running - run the following
+command to start the server for the backend:
 
-## Learn More
+```sh
+rails s -p=3005
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+7) Now that you have the server up and running, once you have the frontend running
+you will be able to access the information from the database that belongs with
+the app.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+PART 2: FRONTEND
 
-### Analyzing the Bundle Size
+OS X & Linux:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+1) Open a new tab and make sure that you are inside of the directory that holds
+geo-dasher-api and not inside of geo-dasher-api itself.
 
-### Making a Progressive Web App
+2) Now, navigate to this page (https://github.com/campbelllssoup/geo-dasher)
+copy the SSH link, and run the following command in the project folder:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+```sh
+git clone <SSH key>
+```
 
-### Advanced Configuration
+3) Next, go into the project directory (geo-dasher) & run the following command
+(if using npm):
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+```sh
+npm install
+```
 
-### Deployment
+4) Be sure that your postgres database is up and running. Now that you've installed
+all the necessary dependencies and have the database up and running - run the
+following command to start the server for the frontend:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+```sh
+npm start
+```
 
-### `npm run build` fails to minify
+5) Now navigate to http://localhost:3000 in order to view the site.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
---------------------------------------------------------------------------------
+## Meta
 
-### Installation
+Written By:
 
-1. To clone down file use the following command so that you also clone down the
-API inside of the repository:
+Matthew Campbell – matjocampbell@gmail.com
 
- $git clone https://github.com/campbelllssoup/geo-dasher.git --recurse-submodules
-
-2. npm install leaflet 
+[Github](https://github.com/campbelllssoup)
