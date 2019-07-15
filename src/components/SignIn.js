@@ -45,6 +45,12 @@ class SignIn extends React.Component {
         <p>
           Don't have an account? <Link to="/signup">Sign up</Link>
         </p>
+        <h4>
+          Signing in as a guest? Use these credentials:
+        </h4>
+        <p>
+          Username: guy_hartgood - password: =_WNj+e-y7D5-v!G
+        </p>
       </div>
     )
   }
