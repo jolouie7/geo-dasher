@@ -2,14 +2,10 @@
 > A location-based game that allows you to map out routes and compete
 head-to-head with other players for the fastest times.
 
-GeoDasher is a game that was thought up with geocaching as a main inspiration.
-In the game any user can create a route that other user's can race, to try and
-compete for the fastest time. While in a bit of an intermission phase at the
-moment, in the end I'd like to convert the application to a native application
-using React Native. One of the biggest benefits of this game I see for the world
-is that it could potentially get people who are very sedentary and on their
-computer/phone active and out in the real world competing with others or just
-dashing for fun.
+GeoDasher is a game, a curious cross between geocaching and "The Amazing Race".
+In the game, a player can create a route that other users can race to compete
+for the fastest time completed on that route. We're in an intermission with development at the
+moment, but in the end I'd like to convert the game to a mobile app. 
 
 ![GeoDasher Gif](geodasher.gif)
 
